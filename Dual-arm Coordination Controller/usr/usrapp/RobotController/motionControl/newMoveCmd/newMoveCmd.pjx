@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
+  <Parameters version="s7.9.1" stackSize="5000" millimeterUnit="true" />
+  <Programs>
+    <Program file="newMoveCmd.pgx" />
+    <Program file="start.pgx" />
+    <Program file="stop.pgx" />
+  </Programs>
+  <Database>
+    <Data file="newMoveCmd.dtx" />
+  </Database>
+  <Libraries />
+  <Types>
+    <Type name="CartesianSpace" path="Disk://RobotController_Libs/RobotStatus/CartesianSpace/CartesianSpace.pjx" />
+    <Type name="ModelParameter" path="Disk://RobotController_Libs/ModelParameter/ModelParameter.pjx" />
+    <Type name="JointSpace" path="Disk://RobotController_Libs/RobotStatus/JointSpace/JointSpace.pjx" />
+    <Type name="RobotCfgStatus" path="Disk://RobotController_Libs/RobotCfgStatus/RobotCfgStatus.pjx" />
+  </Types>
+</Project>

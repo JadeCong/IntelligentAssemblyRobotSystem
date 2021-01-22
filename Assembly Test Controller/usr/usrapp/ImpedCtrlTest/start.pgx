@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="start">
+    <Locals>
+      <Local name="l_bActive" type="bool" xsi:type="array" size="1" />
+      <Local name="l_jInitPoint" type="jointRx" xsi:type="array" size="1" />
+      <Local name="l_jStartPoint" type="jointRx" xsi:type="array" size="1" />
+      <Local name="l_sConnect" type="string" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+
+  //--------------------WACOH F/T Sensor的操作力/力矩信息采集、过滤及传输显示---------------------
+  //初始化Wacoh Force/Torque Sensor
+  call initSensor("io:Wacoh",l_sConnect)
+  if l_sConnect=="yes"
+    putln("Connection success!")
+    delay(1)
+  else
+    putln("Connection fail!")
+    delay(1)
+  endIf
+
+  //创建同步任务，循环获取传感器的Force/Torque数据（采集频率0.004s，频率为250Hz，可设置调节，超时是否需打开？）
+  taskCreateSync "getForces",0.004,bOverRun,loopReadForce()
+
+  //创建异步任务，将采集的传感器数据发送至用户界面实时显示
+  taskCreate "user",100,userInterface()
+
+
+
+  //---------------------机器人Staubli运动控制---------------------
+  //机器人复位（回到默认初始关节角均为0的状态）
+  l_jInitPoint={50,40,75,0,65,0}
+  resetMotion(l_jInitPoint)
+  autoConnectMove(l_bActive)
+
+  //移动至开始运动点
+  l_jStartPoint={60,40,75,0,65,0}
+  movej(l_jStartPoint,flange,mNomSpeed)
+  waitEndMove()
+
+
+  //设定机器人的初始状态（假设初始速度和加速度均为0），用于生成机器人的第一次运动指令----------
+  pNowPosition=$getPosFbk(flange,world)
+  nLastVelocity=0
+  nNowVelocity=0
+  nNowAccel=0
+  nNowClock=clock()
+  //第一次定义执行时间
+  nTime=0.004
+
+  //更新机器人数据、计算并执行新的指令、获取当前的机器人状态（位置、速度、加速度），为下一个机器人运动指令做好准备----------
+  //创建同步任务更新数据（Sensor力/力矩，参考力，参考运动，阻抗参数）
+  taskCreateSync "dataUpdate",0.004,bOverRun,dataUpdate(nForceTorque)
+
+  //创建异步位置更新并执行位置指令
+  taskCreate "newCommand",100,newCommand()
+
+end]]></Code>
+  </Program>
+</Programs>

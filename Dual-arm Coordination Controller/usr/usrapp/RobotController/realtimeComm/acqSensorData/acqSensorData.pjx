@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
+  <Parameters version="s7.9.1" stackSize="5000" millimeterUnit="true" />
+  <Programs>
+    <Program file="ASCIItoNum.pgx" />
+    <Program file="calculateForce.pgx" />
+    <Program file="initSensor.pgx" />
+    <Program file="loopReadForce.pgx" />
+    <Program file="readDetectValue.pgx" />
+    <Program file="start.pgx" />
+    <Program file="stop.pgx" />
+  </Programs>
+  <Database>
+    <Data file="acqSensorData.dtx" />
+  </Database>
+  <Libraries />
+  <Types>
+    <Type name="CommParameter" path="Disk://RobotController_Libs/CommParameter/CommParameter.pjx" />
+    <Type name="FlagStatus" path="Disk://RobotController_Libs/FlagStatus/FlagStatus.pjx" />
+  </Types>
+</Project>

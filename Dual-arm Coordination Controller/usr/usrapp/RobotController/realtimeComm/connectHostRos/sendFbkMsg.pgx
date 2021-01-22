@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="sendFbkMsg" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_rRobotStatus" type="RobotStatus" xsi:type="element" use="reference" />
+      <Parameter name="x_fRosStatus" type="FlagStatus" xsi:type="element" use="reference" />
+    </Parameters>
+    <Code><![CDATA[begin
+  
+  //This program is used for sending the robot feedback data to the host ROS controller and
+  //ensure the data sent correct.
+  
+  while true
+    //call the send data function
+    call sendData(soTcpIpFbk,nSendData,x_rRobotStatus,x_fRosStatus)
+    
+    //Froce an end to the current task and enter the next sequence loop.
+    delay(0.0)
+    
+  endWhile
+  
+  
+  
+end]]></Code>
+  </Program>
+</Programs>

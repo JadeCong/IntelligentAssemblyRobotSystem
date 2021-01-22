@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="modelParmIdent" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nMass" type="num" xsi:type="array" use="reference" dimensions="2" />
+      <Parameter name="x_nDamp" type="num" xsi:type="array" use="reference" dimensions="2" />
+      <Parameter name="x_nStiffness" type="num" xsi:type="array" use="reference" dimensions="2" />
+    </Parameters>
+    <Code><![CDATA[begin
+  
+  //==================== 实时在线辨识机器人（阻抗/other）模型参数（待补充），当前使用假定辨识参数 ====================
+  
+  //---------- 阻抗模型参数在线辨识（待补充） ----------
+  
+  
+  
+  //---------- 当前假定阻抗模型参数（位置+姿态）（注意单位换算，当前使用MKS） ----------
+  //质量参数M（N*s^2/m,N*s^2/°）
+  x_nMass[0,0]=0.1
+  x_nMass[1,1]=0.1
+  x_nMass[2,2]=0.1
+  
+  x_nMass[3,3]=0.00005
+  x_nMass[4,4]=0.00005
+  x_nMass[5,5]=0.00005
+  
+  //阻尼参数B（N*s/m,N*s/°）
+  x_nDamp[0,0]=4
+  x_nDamp[1,1]=4
+  x_nDamp[2,2]=4
+  
+  x_nDamp[3,3]=4
+  x_nDamp[4,4]=4
+  x_nDamp[5,5]=4
+  
+  //刚度参数K（N/m,N/°）
+  x_nStiffness[0,0]=4
+  x_nStiffness[1,1]=4
+  x_nStiffness[2,2]=4
+  
+  x_nStiffness[3,3]=4
+  x_nStiffness[4,4]=4
+  x_nStiffness[5,5]=4
+  
+end]]></Code>
+  </Program>
+</Programs>

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="Communication" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_jJointRxSend" type="jointRx" xsi:type="array" use="reference" />
+      <Parameter name="x_jJointRxRecv" type="jointRx" xsi:type="array" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nDataSend" type="num" xsi:type="array" size="6" />
+      <Local name="l_nDataRecv" type="num" xsi:type="array" size="6" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //==========双向通讯通道，两个机器人控制器能相互发送和接受数据==========
+  //清理Socket缓存，用来接收和发送数据，防止残留数据的干扰
+  clearBuffer(sClient)
+  
+  //发送指令和数据到服务器，请求数据
+  //先解析数据为数组再发送数据
+  call jointToArray(x_jJointRxSend,l_nDataSend)
+  sioSet(sClient,l_nDataSend)
+  
+  //先接受数据再解析为关节位置
+  sioGet(sClient,l_nDataRecv)
+  call arrayToJoint(l_nDataRecv,x_jJointRxRecv)
+  
+end]]></Code>
+  </Program>
+</Programs>

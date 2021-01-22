@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
+  <Parameters version="s7.9.1" stackSize="50000" millimeterUnit="true" />
+  <Programs>
+    <Program file="Assembly_Task1.pgx" />
+    <Program file="Assembly_Task2.pgx" />
+    <Program file="Assembly_Task3.pgx" />
+    <Program file="start.pgx" />
+    <Program file="stop.pgx" />
+  </Programs>
+  <Database>
+    <Data file="testAssembly.dtx" />
+  </Database>
+  <Libraries />
+</Project>

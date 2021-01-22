@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="initSensor" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_sSocket" type="string" xsi:type="element" />
+      <Parameter name="x_sLink" type="string" xsi:type="element" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="SampleNum" type="num" xsi:type="array" size="1" />
+      <Local name="l_bOk" type="bool" xsi:type="array" size="1" />
+      <Local name="l_nFilter" type="num" xsi:type="array" size="1" />
+      <Local name="l_nNum" type="num" xsi:type="array" size="1" />
+      <Local name="l_nPort" type="num" xsi:type="array" size="1" />
+      <Local name="l_nReturn" type="num" xsi:type="array" size="1" />
+      <Local name="l_nSampleData" type="num" xsi:type="array" size="6" />
+      <Local name="l_nSampleSum" type="num" xsi:type="array" size="6" />
+      <Local name="l_nSensitivity" type="num" xsi:type="array" size="49" />
+      <Local name="l_nTimeOut" type="num" xsi:type="array" size="1" />
+      <Local name="l_nValue" type="string" xsi:type="array" size="49" />
+      <Local name="l_sString" type="string" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+
+  //定义并设置Socket通讯的相关参数//----------
+  //定义端口与超时
+  nPort=5001
+  nSioTimeOut=5
+
+  //设置Socket接口通讯参数
+  l_nReturn=getData(x_sSocket,sClient)
+  if l_nReturn>0
+    l_nPort=sioCtrl(sClient,"port",nPort)
+    l_nTimeOut=sioCtrl(sClient,"timeout",nSioTimeOut)
+  endIf
+
+  //检查是否设置并连接成功
+  if (l_nPort==0) and (l_nTimeOut==0)
+    x_sLink="yes"
+  else
+    x_sLink="no"
+  endIf
+
+  //获取并设置Wacoh Force/Torque Sensor的相关参数//----------
+  //获取传感器的移动平均值滤波设置
+  sClient="0F"
+  //sioSet(sClient,nCommand)
+
+  //获取数据前清理读取缓存
+  clearBuffer(sClient)
+  sioGet(sClient,l_nFilter)
+
+  //检查并设置移动平均值滤波（获得的为十进制的ASCII码值）
+  //4个点，250Hz移动平均值滤波（默认为1各点，无滤波）
+  if l_nFilter==52
+    putln("Filter setting is ok!")
+    delay(0.5)
+  else
+    //getData("1F",sClient)
+    sClient="4F"
+    putln("Filter setting is wrong, but changed correctly!")
+    delay(0.5)
+  endIf
+
+  //获取传感器的主轴灵敏度（命令p小写）
+  sClient="p"
+  clearBuffer(sClient)
+  sioGet(sClient,l_nSensitivity)
+
+  //将灵敏度转换成数组并存进nSensitivity
+  for l_nNum=0 to 46
+    l_nValue[l_nNum]=chr(l_nSensitivity[l_nNum])
+    l_sString=l_sString+l_nValue[l_nNum]
+  endFor
+  putln(l_sString)
+
+  for l_nNum=0 to 5
+    l_sString=toNum(l_sString,nSensitivity[l_nNum],l_bOk)
+  endFor
+  //  putln(nSensitivity[0])
+  //  putln(nSensitivity[1])
+  //  putln(nSensitivity[2])
+  //  putln(nSensitivity[3])
+  //  putln(nSensitivity[4])
+  //  putln(nSensitivity[5])
+  //  nSensitivity[0]=32
+  //  nSensitivity[1]=32
+  //  nSensitivity[2]=32
+  //  nSensitivity[3]=1640
+  //  nSensitivity[4]=1640
+  //  nSensitivity[5]=1640
+  //  delay(5.0)
+
+  //Wacoh Force/Torque Sensor偏置复位校准（每次使用前都需进行至少三次）----------
+  sClient="O"
+  sClient="O"
+  sClient="O"
+  sClient="O"
+  sClient="O"
+  sClient="O"
+  sClient="O"
+  sClient="O"
+  sClient="O"
+  //  sioSet(sClient,nCommand)
+  //  sioSet(sClient,nCommand)
+  //  sioSet(sClient,nCommand)
+  //delay(0.0)
+
+  //获取并设置安装End-effector（有or无）的Sensor零点值（用于传感器Calibration）----------
+  //获取并设置零点值
+  //call readDeteVal(nZeroPoint)
+
+  //多次采样取平均值，从而减小零点的随机噪声误差
+  l_nSampleSum=0
+  do
+    call readDeteVal(l_nSampleData)
+    for l_nNum=0 to 5
+      l_nSampleSum[l_nNum]=l_nSampleSum[l_nNum]+l_nSampleData[l_nNum]
+    endFor
+    SampleNum=SampleNum+1
+  until SampleNum==50
+
+  //nZeroPoint[0]=l_nSampleSum[0]/50
+  for l_nNum=0 to 5
+    nZeroPoint[l_nNum]=l_nSampleSum[l_nNum]/SampleNum
+  endFor
+
+  delay(0)
+
+end]]></Code>
+  </Program>
+</Programs>

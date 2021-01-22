@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="start">
+    <Locals>
+      <Local name="l_jInitPoint" type="jointRx" xsi:type="array" size="1" />
+      <Local name="l_jStartPoint" type="jointRx" xsi:type="array" size="1" />
+      <Local name="l_nNum" type="num" xsi:type="array" size="1" />
+      <Local name="l_sConnect" type="string" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //===================== 程序说明 =====================
+  //Goal: 改程序用于Staubli TX90机器人的实时导纳控制，即通过外部传感器输入的力信息，经过阻抗模型转换成控制机器人的位置指令，
+  //用来控制机器人的运动。本程序要实现的目标是，通过拖拽机器人到目标位置。
+  //Author: Jade Cong
+  //Date: 2017-05-26
+  
+  //Modification: 
+  //Modification Time: 
+  
+  
+  
+  //===================== 第一步：初始化设备（机器人，传感器），并确保无任何问题 =====================
+  //---------- 清理用户界面（清楚上一次程序终止后残留的用户界面信息） -----------
+  cls()
+  
+  
+  //----------- 初始化机器人（移动机器人至初始位置，并进入Sychronous Movej模式） ----------
+  //移动机器人至初始零位置（从上一次程序结束后的位置恢复，防止干扰下一次程序执行）
+  l_jInitPoint={0,0,0,0,0,0}
+  resetMotion(l_jInitPoint)
+  autoConnectMove(bActive)
+  
+  //移动机器人至运动开始准备点（准备从当前位置进入同步模式）
+  l_jStartPoint={50,40,75,0,65,0}
+  movej(l_jStartPoint,flange,mMdesc_Init)
+  waitEndMove()
+  
+  //开始Sychronous Movej运动模式，并检测是否成功（注意运动参数mMdesc_RT的设置，其控制机器人的最大速度和加速度）
+  $movejSyncBegin(mMdesc_RT)
+  
+  //等待机器人接近Sychronous Movej实时运动模式的开始点（为避免机器人运动突然大距离运动而报错，故此点不能离当前点太远）
+  jJoint_RT_Start={50.01,40,75,0,65,0}
+  wait($movejSync(jJoint_RT_Start)==true)
+  
+  //返回Sychronous Movej当前的运动状态
+  if $movejSyncState()==1
+    popUpMsg("MovejSynch running, no error!")
+  elseIf $movejSyncState()==0
+    popUpMsg("MovejSynch not started!")
+    wait($movejSync(jJoint_RT_Start)==true)
+  elseIf $movejSyncState()==2
+    popUpMsg("MovejSynch stopped in error(after invalid command)!")
+    $movejSyncEnd()
+  elseIf $movejSyncState()==3
+    popUpMsg("MovejSynch runing, last command was not refreshed in time!")
+    $movejSyncEnd()
+  elseIf $movejSyncState()==4
+    popUpMsg("MovejSynch runing, commands are locked because motion is stopped!")
+    $movejSyncEnd()
+  endIf
+  
+  
+  //----------- 初始化传感器（完成通讯及零点校准），并检测是否成功 -----------
+  call initSensor("io:Wacoh",l_sConnect)
+  if l_sConnect=="yes"
+    putln("Connection success!")
+    delay(1.0)
+  else
+    putln("Connection fail!")
+    delay(1.0)
+  endIf
+  
+  
+  
+  //===================== 第二步：周期性更新位置指令并送给机器人执行，同时采集、更新并输出、输入数据（4ms） ====================
+  //---------- 确定机器人及传感器的初始状态（当前和期望）和模型（阻抗/other）参数，用于第一次更新机器人位置指令 ----------
+  //阻抗参数
+  for l_nNum=0 to 2
+    nMass[l_nNum,l_nNum]=0.1
+    nDamp[l_nNum,l_nNum]=4
+    nStiffness[l_nNum,l_nNum]=4
+    
+    nMass[l_nNum+3,l_nNum+3]=0.00001
+    nDamp[l_nNum+3,l_nNum+3]=4
+    nStiffness[l_nNum+3,l_nNum+3]=4
+  endFor
+  
+  //当前状态
+  nForceTorque=0
+  pNowPointPos=$getPosFbk(flange,world)
+  nNowPointVel=0
+  nNowPointAccel=0
+  
+  //期望状态
+  ndForceTorque=0
+  pdPointPos=pNowPointPos
+  ndPointVel=0
+  ndPointAccel=0
+  
+  
+  //---------- 创建同步任务，每4ms更新机器人的位置指令（根据上一次采集的数据对下一次的运动产生修正） ----------
+  taskCreateSync "newCommand",0.004,bOverRun[0],newCommand(pPointCommand)
+  
+  
+  //---------- 创建同步任务，每4ms机器人执行新的位置指令 ----------
+  taskCreateSync "robotMove",0.004,bOverRun[1],robotMove(pPointCommand)
+  
+  
+  //---------- 创建同步任务，每4ms实时进行数据采集、更新，并输出（传感器及机器人状态）;输入并更新（阻抗模型参数，机器人运动规划所期望的Force/Motion State） ----------
+  //首先创建文件，其次循环写入（输出）、读取（输入）数据
+  //  nFileID[0]=$fileOpen("Disk://Cache Data/Sensor_Data.txt","w")
+  //  nFileID[1]=$fileOpen("Disk://Cache Data/Robot_Cartesian_Data.txt","w")
+  //  nFileID[2]=$fileOpen("Disk://Cache Data/Robot_Joint_Data.txt","w")
+  
+  //nFileID[3]=$fileOpen("Disk:///Cache Data/Desired_Sensor_Data.txt","r")
+  //nFileID[4]=$fileOpen("Disk://Cache Data/Desired_Robot_Cartesian_Data.txt","r")
+  //nFileID[5]=$fileOpen("Disk://Cache Data/Desired_Robot_Joint_Data.txt","r")
+  
+  //  if nFileID[0]>=0 and nFileID[1]>=0 and nFileID[2]>=0
+  //    popUpMsg("Files open success!")
+  //  else
+  //    popUpMsg("Files open fail!")
+  //  endIf
+  
+  //更新（输入，输出）数据
+  taskCreateSync "dataUpdate",0.004,bOverRun[2],dataUpdate(nFileID)
+  
+  
+  
+  //==================== 第三步：实时更新显示并监测机器人及传感器的状态 ====================
+  //创建异步任务，显示更新传感数据（力/力矩）和机器人当前状态（位置，速度，加速度）
+  taskCreate "userInterface",20,userInterface(nForceTorque,pNowPointPos,nNowPointVel,nNowPointAccel,jNowJointPos,nNowJointVel,nNowJointAccel)
+  
+end]]></Code>
+  </Program>
+</Programs>

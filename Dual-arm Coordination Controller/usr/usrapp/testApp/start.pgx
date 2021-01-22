@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="start">
+    <Code><![CDATA[begin
+  
+  movej(jJointRx,flange,mNomSpeed)
+  $getJntSpeedFbk(jJointVel.jv)
+  //jJointVel.jv = 
+  //wait(false)
+  delay(200.0)
+  
+  
+  
+  
+  //This program is used for acquiring the current robot status which include joint space information(joint position,
+  //joint velocity, joint acceleration) and cartesian space information(cartesian position, cartesian velocity, cartesian
+  //acceleration). The current robot status are used for motion control and feedback information for host ROS controller.
+  //According to last robot status based on specified frame and inqury period, the current joint positions, joint velocities, 
+  //cartesian positions and cartesian velocities of robot will be acquired and the current joint acceleration and cartesian
+  //acceleration of robot will be calculated using differential method. The unit of the variables should be noticed extremely
+  //in cartesian space and joint space.
+  
+  //Acquire the current status of robot from the encoders in joint space.(Unit: degree, degree/second, degree/(second squared))
+  jJointPos.jp=$getJntFbk()
+  jJointSpace.jointPos.jp.j1
+  jJointSpace.jointVel.jv
+  
+  cCartesianSpace.cartesianPos.cp.trsf.x
+  cCartesianSpace.cartesianVel.cv[1]=
+  
+  
+  
+  
+  $getJntSpeedFbk(cCartesianSpace.cartesianVel.cv[1])
+  //Calculate the joint acceleration of robot based on last robot status and inqury period.
+  for l_nNum=0 to 5
+    x_jJointSpace.jJointAccel[l_nNum]=(x_nJointVel[l_nNum]-nNowJointVel[l_nNum])/x_nCyclePeriod
+  endFor
+  
+  //Acquire the current status of robot from the encoders in cartesian space.(Unit: millimeter;degree, mm;°/s, mm;°/s^2)
+  x_pPointPos=$getPosFbk(x_tExecuteTool,x_fRefFrame)
+  x_nResultantVel=$getSpeedFbk(x_tExecuteTool,x_fRefFrame,x_nPointVel[0],x_nPointVel[1],x_nPointVel[2],x_nPointVel[3],x_nPointVel[4],x_nPointVel[5])
+  for l_nNum=0 to 5
+    x_nPointAccel[l_nNum]=(x_nPointVel[l_nNum]-nNowPointVel[l_nNum])/x_nCyclePeriod
+  endFor
+  
+end]]></Code>
+  </Program>
+</Programs>

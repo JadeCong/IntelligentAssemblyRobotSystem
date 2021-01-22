@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
+  <Parameters version="s7.9.1" stackSize="500000" millimeterUnit="true" />
+  <Programs>
+    <Program file="ASCIItoNum.pgx" />
+    <Program file="calcForce.pgx" />
+    <Program file="dataFileOutput.pgx" />
+    <Program file="dataUpdate.pgx" />
+    <Program file="initSensor.pgx" />
+    <Program file="loopReadForce.pgx" />
+    <Program file="modelParmIdent.pgx" />
+    <Program file="newCommand.pgx" />
+    <Program file="readDeteVal.pgx" />
+    <Program file="robotMove.pgx" />
+    <Program file="robotPlanner.pgx" />
+    <Program file="robotStateInq.pgx" />
+    <Program file="start.pgx" />
+    <Program file="stop.pgx" />
+    <Program file="userInterface.pgx" />
+  </Programs>
+  <Database>
+    <Data file="realTimeCtrl.dtx" />
+  </Database>
+  <Libraries />
+</Project>

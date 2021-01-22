@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="arrayToJoint" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nNumInput" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_jJointOutput" type="jointRx" xsi:type="array" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nNumOutput" type="num" xsi:type="array" size="6" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //==========解析两个机器人之间通讯收发的数据和指令==========
+  
+  //将数组数据解析成机器人的关节位置
+  l_nNumOutput=x_nNumInput
+  
+  x_jJointOutput.j1=l_nNumOutput[0]
+  x_jJointOutput.j2=l_nNumOutput[1]
+  x_jJointOutput.j3=l_nNumOutput[2]
+  x_jJointOutput.j4=l_nNumOutput[3]
+  x_jJointOutput.j5=l_nNumOutput[4]
+  x_jJointOutput.j6=l_nNumOutput[5]
+  
+end]]></Code>
+  </Program>
+</Programs>

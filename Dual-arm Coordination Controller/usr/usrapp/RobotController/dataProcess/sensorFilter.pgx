@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="sensorFilter" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nFTData" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nFTValue" type="num" xsi:type="array" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nNum" type="num" xsi:type="array" size="1" />
+      <Local name="l_n" type="num" xsi:type="array" size="1" />
+      <Local name="l_nFTTemp" type="num" xsi:type="array" size="1" />
+      <Local name="l_nWight" type="num" xsi:type="array" size="40" />
+      <Local name="l_nTemp" type="num" xsi:type="array" size="1" />
+      <Local name="l_i" type="num" xsi:type="array" size="1" />
+      <Local name="l_j" type="num" xsi:type="array" size="1" />
+      <Local name="l_nFTData" type="num" xsi:type="array" size="40" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //This program is used for filtering the noise of the F/T sensor itself, Thus the robot can
+  //move smoothly. And the filter algrithm can be replaced when you need.
+  
+  
+  //Moving Average Filter
+  l_nNum=4
+  l_nFTTemp=0
+  for l_n=0 to l_nNum-1
+    l_nFTTemp=l_nFTTemp+x_nFTData[l_n]
+  endFor
+  x_nFTValue=l_nFTTemp/l_nNum
+  
+  //Weighted Recursive Average Filter
+  l_nNum=4
+  l_nFTTemp=0
+  l_nWight[0]=0.5
+  l_nWight[1]=0.3413
+  l_nWight[2]=0.1359
+  l_nWight[3]=0.0215
+  l_nWight[4]=0.0013
+  for l_n=0 to l_nNum
+    l_nFTTemp=l_nFTTemp+x_nFTData[l_n]*l_nWight[l_n]
+  endFor
+  x_nFTValue=l_nFTTemp
+  
+  //Median Average Filter
+  l_nFTTemp=0
+  l_nNum=4
+  l_nFTData=x_nFTData
+  
+  for l_j=0 to l_nNum-1
+    for l_i=0 to l_nNum-1-l_j
+      if l_nFTData[l_i]>l_nFTData[l_i+1]
+        l_nFTData=l_nFTData[l_i]
+        l_nFTData[l_i]=l_nFTData[l_i+1]
+        l_nFTData[l_i+1]=l_nTemp
+      endIf
+    endFor
+  endFor
+  
+  for l_i=1 to l_nNum-1
+    l_nFTTemp=l_nFTTemp+l_nFTData[l_i]
+  endFor
+  
+  x_nFTValue=l_nFTTemp/(l_nNum-2)
+  
+  //Lowpass Filter
+  
+  
+  
+  //Kalman Filter
+  
+  
+  
+end]]></Code>
+  </Program>
+</Programs>

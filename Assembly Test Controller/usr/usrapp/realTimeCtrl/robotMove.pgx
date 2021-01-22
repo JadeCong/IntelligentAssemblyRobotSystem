@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="robotMove" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_pPoint_Move" type="pointRx" xsi:type="element" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_jJoint_Move" type="jointRx" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //==================== 机器人4ms执行一次该程序（在4ms内完成目标点的运动，这样就可以通过控制点之间的距离来控制机器人的速度和加速度） =====================
+  
+  //while循环判断当前的目标点是否存在关节逆解，以及movejSync是否无错误运行（若未更新则说明存在奇异点或者死区或运行存在问题，则结束Sychronous movej运动模式并停止运动）
+  while true
+    //$movejSyncState()==1 and 
+    pointToJoint(flange,herej(),x_pPoint_Move,l_jJoint_Move)
+    //pointToJoint(tTool,herej(),x_pPoint_Move,l_jJoint_Move)
+    
+    //若进入循环则说明有解，然后移动机器人至目标关节位置（代码直接瞬间执行完，但机器人运动则在4ms内完成）
+    $movejSync(l_jJoint_Move)
+    //putln("move ok!")
+    
+    //强制结束当前的任务从而进入sequence中的下一任务（保证程序执行与机器人执行的同步）
+    delay(0.0)
+    
+  endWhile
+  
+  //结束Sychronous Movej运动模式并停止运动
+  $movejSyncEnd()
+  stopMove()
+  
+end]]></Code>
+  </Program>
+</Programs>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="calcForce" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nDetectValue" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nFTValue" type="num" xsi:type="array" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nSequence" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //通过Wacoh F/T Sensor Instruction Manual中的公式计算测得的力和力矩值
+  
+  //F/T Value=(detected value-zero point value)/main axis sensitivity
+  for l_nSequence=0 to 5
+    x_nFTValue[l_nSequence]=(x_nDetectValue[l_nSequence]-nZeroPoint[l_nSequence])/nSensitivity[l_nSequence]
+    //x_nFTValue[l_nSequence]=(x_nDetectValue[l_nSequence]-8192)/nSensitivity[l_nSequence]
+  endFor
+  
+end]]></Code>
+  </Program>
+</Programs>

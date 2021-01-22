@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="initSensor" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_sSocket" type="string" xsi:type="element" use="reference" />
+      <Parameter name="x_fSensorStatus" type="FlagStatus" xsi:type="element" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nSensorReturn" type="num" xsi:type="array" size="4" />
+      <Local name="l_nNum" type="num" xsi:type="array" size="1" />
+      <Local name="l_nReturn" type="num" xsi:type="array" size="1" />
+      <Local name="l_nFilter" type="num" xsi:type="array" size="1" />
+      <Local name="l_nSensitivity" type="num" xsi:type="array" size="49" />
+      <Local name="l_sValue" type="string" xsi:type="array" size="49" />
+      <Local name="l_sString" type="string" xsi:type="array" size="1" />
+      <Local name="l_bReport" type="bool" xsi:type="array" size="1" />
+      <Local name="l_nSampleSum" type="num" xsi:type="array" size="6" />
+      <Local name="l_nSampleData" type="num" xsi:type="array" size="6" />
+      <Local name="SampleNum" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //This program is used for initializing the Force/Torque sensor settings and connecting the sensor to the
+  //robot controller.
+  
+  
+  //Define the socket communication parameter for the Force/Torque sensor
+  cSensorCommParm.port=5001
+  cSensorCommParm.timeOut=5
+  cSensorCommParm.mode="rs422"
+  cSensorCommParm.nagle=false
+  //Configure the socket communication parameter for the Force/Torque sensor
+  l_nReturn=getData(x_sSocket,sClientSensor)
+  if l_nReturn>0
+    l_nSensorReturn[0]=sioCtrl(sClientSensor,"port",cSensorCommParm.port)
+    l_nSensorReturn[1]=sioCtrl(sClientSensor,"timeout",cSensorCommParm.timeOut)
+    l_nSensorReturn[2]=sioCtrl(sClientSensor,"mode",cSensorCommParm.mode)
+    l_nSensorReturn[3]=sioCtrl(sClientSensor,"nagle",cSensorCommParm.nagle)
+  endIf
+  //Check the socket communication configuration successful or not
+  //if (l_nSensorReturn[0]==0) and (l_nSensorReturn[1]==0) and (l_nSensorReturn[2]==0) and (l_nSensorReturn[3]==0)
+  if l_nSensorReturn==0
+    x_fSensorStatus.ForceFlag=1
+  else
+    x_fSensorStatus.ForceFlag=-1
+  endIf
+  
+  //Acquire and Configure the Force/Torque sensor(Wacoh) relevant functional parameters
+  //Acquire the moving average filter settings of Wacoh sensor
+  sClientSensor="0F"
+  clearBuffer(sClientSensor)
+  sioGet(sClientSensor,l_nFilter)
+  //Configrue the moving average filter settings to 250Hz for synchronizing the robot motion in every 4ms
+  if l_nFilter==52
+    putln("Filter setting is ok!")
+    delay(0.5)
+  else
+    sClientSensor="4F"
+    putln("Filter setting is wrong, but changed correctly!")
+    delay(0.5)
+  endIf
+  
+  //Acquire and store the sensitivity of the Wacoh sensor
+  //Acquire the sensitivity of the sensor in lowercase p command
+  sClientSensor="p"
+  clearBuffer(sClientSensor)
+  sioGet(sClientSensor,l_nSensitivity)
+  //Convert the decimal text to the number and store it in the public array nSensitivity
+  for l_nNum=0 to 46
+    l_sValue[l_nNum]=chr(l_nSensitivity[l_nNum])
+    l_sString=l_sString+l_sValue[l_nNum]
+  endFor
+  //Display the Wacoh sensor sensitivity
+  putln(l_sString)
+  for l_nNum=0 to 5
+    l_sString=toNum(l_sString,nSensitivity[l_nNum],l_bReport)
+  endFor
+  
+  //Reset the offset of the Wacoh sensor for several times every time the sensor will be used
+  l_nNum=0
+  do
+    sClientSensor="O"
+    l_nNum=l_nNum+1
+  until l_nNum==10
+  
+  //Acquire the zero point of the Wacoh sensor with endeffector based on sampling for lower random noise error
+  l_nSampleSum=0
+  SampleNum=0
+  do
+    call readDetectValue(l_nSampleData,x_fSensorStatus)
+    for l_nNum=0 to 5
+      l_nSampleSum[l_nNum]=l_nSampleSum[l_nNum]+l_nSampleData[l_nNum]
+    endFor
+    SampleNum=SampleNum+1
+  until SampleNum==200
+  //Store the zero point of the Wacoh sensor in the public array 
+  for l_nNum=0 to 5
+    nZeroPoint[l_nNum]=l_nSampleSum[l_nNum]/SampleNum
+  endFor
+  
+  delay(0.0)
+  
+end]]></Code>
+  </Program>
+</Programs>

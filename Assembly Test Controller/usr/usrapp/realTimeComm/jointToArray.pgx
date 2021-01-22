@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="jointToArray" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_jJointInput" type="jointRx" xsi:type="array" use="reference" />
+      <Parameter name="x_nNumOutput" type="num" xsi:type="array" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_jJointInput" type="jointRx" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //==========解析两个机器人之间通讯收发的数据和指令==========
+  
+  //将机器人的关节位置解析成数组格式
+  l_jJointInput=x_jJointInput
+  
+  x_nNumOutput[0]=l_jJointInput.j1
+  x_nNumOutput[1]=l_jJointInput.j2
+  x_nNumOutput[2]=l_jJointInput.j3
+  x_nNumOutput[3]=l_jJointInput.j4
+  x_nNumOutput[4]=l_jJointInput.j5
+  x_nNumOutput[5]=l_jJointInput.j6
+  
+  //将机器人的笛卡尔位置解析成数组格式
+  
+end]]></Code>
+  </Program>
+</Programs>

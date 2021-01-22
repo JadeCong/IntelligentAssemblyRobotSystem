@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="newMoveCmd" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_rRobotCfgStat" type="RobotCfgStatus" xsi:type="element" use="reference" />
+      <Parameter name="x_mImpedParm" type="ModelParameter" xsi:type="element" use="reference" />
+      <Parameter name="x_cNowStat" type="CartesianSpace" xsi:type="element" use="reference" />
+      <Parameter name="x_cDesiredStat" type="CartesianSpace" xsi:type="element" use="reference" />
+      <Parameter name="x_jNewMoveCmd" type="JointSpace" xsi:type="element" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_n" type="num" xsi:type="array" size="1" />
+      <Local name="l_nDPosTemp" type="num" xsi:type="array" size="6" />
+      <Local name="l_nNPosTemp" type="num" xsi:type="array" size="6" />
+      <Local name="l_nDVelTemp" type="num" xsi:type="array" size="6" />
+      <Local name="l_nNVelTemp" type="num" xsi:type="array" size="6" />
+      <Local name="l_nDAccelTemp" type="num" xsi:type="array" size="6" />
+      <Local name="l_nNAccelTemp" type="num" xsi:type="array" size="6" />
+      <Local name="l_nDForceTemp" type="num" xsi:type="array" size="6" />
+      <Local name="l_nPointPos" type="num" xsi:type="array" size="6" />
+      <Local name="l_nPointVel" type="num" xsi:type="array" size="6" />
+      <Local name="l_nPointAccel" type="num" xsi:type="array" size="6" />
+      <Local name="l_nNForceTemp" type="num" xsi:type="array" size="6" />
+      <Local name="l_cNewMoveCmd" type="CartesianSpace" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //This program is used for updating the robot move command based on the impedance model which reveals the dynamic 
+  //relationship between the robot's endeffector and the environment. According to the impedance model parameter 
+  //identified in self-adaptation method, the next robot move command can be calculated based on the position and 
+  //force deviation with the robot status and interaction force in current and desired situation. And this program
+  //should be called every 4ms in the task sequence for ensuring the robot move smoothly.
+  
+  //The impedance model is used in the cartesian space which is intuitional for human and operation tasks. So the 
+  //unit of the impedance model should be noticed especially.
+  while true
+    
+    //Assign the current and desired robot status in cartesian space to the local temp variables for easy operation.
+    //(Robot Status Unit: m, m/s,m/s^2; Impedance Model Parameter Unit: N*s^2/m,N*s^2/°; N*s/m,N*s/°; N/m,N/°)
+    l_nDPosTemp[0]=x_cDesiredStat.CartesianPos.trsf.x
+    l_nDPosTemp[1]=x_cDesiredStat.CartesianPos.trsf.y
+    l_nDPosTemp[2]=x_cDesiredStat.CartesianPos.trsf.z
+    l_nDPosTemp[3]=x_cDesiredStat.CartesianPos.trsf.rx
+    l_nDPosTemp[4]=x_cDesiredStat.CartesianPos.trsf.ry
+    l_nDPosTemp[5]=x_cDesiredStat.CartesianPos.trsf.rz
+    for l_n=0 to 5
+      l_nDVelTemp[l_n]=x_cDesiredStat.CartesianVel[l_n]
+      l_nDAccelTemp[l_n]=x_cDesiredStat.CartesianAccel[l_n]
+      l_nDForceTemp[l_n]=x_cDesiredStat.CartesianForce[l_n]
+    endFor
+    
+    l_nNPosTemp[0]=x_cNowStat.CartesianPos.trsf.x
+    l_nNPosTemp[1]=x_cNowStat.CartesianPos.trsf.y
+    l_nNPosTemp[2]=x_cNowStat.CartesianPos.trsf.z
+    l_nNPosTemp[3]=x_cNowStat.CartesianPos.trsf.rx
+    l_nNPosTemp[4]=x_cNowStat.CartesianPos.trsf.ry
+    l_nNPosTemp[5]=x_cNowStat.CartesianPos.trsf.rz
+    for l_n=0 to 5
+      l_nNVelTemp[l_n]=x_cNowStat.CartesianVel[l_n]
+      l_nNAccelTemp[l_n]=x_cNowStat.CartesianAccel[l_n]
+      l_nNForceTemp[l_n]=x_cNowStat.CartesianForce[l_n]
+    endFor
+    
+    //Calculate the next robot move command based on the impedance model with the impedance parameters.
+    //Calculete the point acceleration.(positon and posture)
+    for l_n=0 to 5
+      l_nPointAccel[l_n]=l_nDAccelTemp[l_n]+1/x_mImpedParm.MassParm[l_n]*((l_nDForceTemp[l_n]-l_nNForceTemp[l_n])-x_mImpedParm.DampingParm[l_n]*(l_nNVelTemp[l_n]-l_nDVelTemp[l_n])-x_mImpedParm.StiffnessParm[l_n]*(l_nNPosTemp[l_n]-l_nDPosTemp[l_n]))
+    endFor
+    //Calculete the point velocity.(position and posture)
+    for l_n=0 to 5
+      l_nPointVel[l_n]=l_nNVelTemp[l_n]+l_nPointAccel[l_n]*x_rRobotCfgStat.CyclePeriod
+    endFor
+    //Calculate the point position.(position and posture)
+    for l_n=0 to 5
+      l_nPointPos[l_n]=l_nNPosTemp[l_n]+l_nPointVel[l_n]*x_rRobotCfgStat.CyclePeriod
+    endFor
+    
+    //Convert the robot move point into the robot joint position.
+    l_cNewMoveCmd.CartesianPos.trsf.x=l_nPointPos[0]
+    l_cNewMoveCmd.CartesianPos.trsf.y=l_nPointPos[1]
+    l_cNewMoveCmd.CartesianPos.trsf.z=l_nPointPos[2]
+    l_cNewMoveCmd.CartesianPos.trsf.rx=l_nPointPos[3]
+    l_cNewMoveCmd.CartesianPos.trsf.ry=l_nPointPos[4]
+    l_cNewMoveCmd.CartesianPos.trsf.rz=l_nPointPos[5]
+    pointToJoint(x_rRobotCfgStat.ExecuteTool,herej(),l_cNewMoveCmd.CartesianPos,x_jNewMoveCmd.JointPos)
+    
+    //Froce an end to the current task and enter the next sequence loop.
+    delay(0.0)
+    
+  endWhile
+  
+  
+end]]></Code>
+  </Program>
+</Programs>

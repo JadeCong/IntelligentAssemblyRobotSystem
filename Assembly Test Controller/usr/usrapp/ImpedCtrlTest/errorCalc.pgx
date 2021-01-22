@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="errorCalc" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_pNewPostion" type="pointRx" xsi:type="array" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nAccel" type="num" xsi:type="array" size="6" />
+      <Local name="l_nNewPosition" type="num" xsi:type="array" size="6" />
+      <Local name="l_nNowPosition" type="num" xsi:type="array" size="6" />
+      <Local name="l_nNum" type="num" xsi:type="array" size="1" />
+      <Local name="l_nTime" type="num" xsi:type="array" size="1" />
+      <Local name="l_nVelocity" type="num" xsi:type="array" size="6" />
+      <Local name="l_pNowPosTemp" type="pointRx" xsi:type="array" size="1" />
+      <Local name="l_pPosTemp" type="pointRx" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+
+  //计算机器人指令误差，并生成新的位置---------
+  //获取机器人执行运动指令时间
+  l_nTime=nTime
+
+  //将机器人的当前位置赋值给数组变量，便于程序操作
+  l_pPosTemp=pNowPosition
+  l_nNowPosition[0]=l_pPosTemp.trsf.x
+  l_nNowPosition[1]=l_pPosTemp.trsf.y
+  l_nNowPosition[2]=l_pPosTemp.trsf.z
+  l_nNowPosition[3]=l_pPosTemp.trsf.rx
+  l_nNowPosition[4]=l_pPosTemp.trsf.ry
+  l_nNowPosition[5]=l_pPosTemp.trsf.rz
+
+  //求加速度（位置+姿态）
+  for l_nNum=0 to 5
+    l_nAccel[l_nNum]=ndAccel[l_nNum]+1/nMass[l_nNum,l_nNum]*(-(ndForce[l_nNum]-nForce[l_nNum])-nDamp[l_nNum,l_nNum]/1000*(nNowVelocity[l_nNum]-ndVelocity[l_nNum])-nStiffness[l_nNum,l_nNum]/1000*(l_nNowPosition[l_nNum]-ndPosition[l_nNum]))
+  endFor
+
+  //求速度（位置+姿态）
+  for l_nNum=0 to 5
+    l_nVelocity[l_nNum]=nNowVelocity[l_nNum]/1000+l_nAccel[l_nNum]*l_nTime
+  endFor
+
+  //求位置指令（位置+姿态）（转换成笛卡儿坐标点类型）
+  for l_nNum=0 to 5
+    l_nNewPosition[l_nNum]=l_nNowPosition[l_nNum]+l_nVelocity[l_nNum]*1000*l_nTime
+  endFor
+  x_pNewPostion.trsf.x=l_nNewPosition[0]
+  x_pNewPostion.trsf.y=l_nNewPosition[1]
+  x_pNewPostion.trsf.z=l_nNewPosition[2]
+//  x_pNewPostion.trsf.rx=l_nNewPosition[3]/60
+//  x_pNewPostion.trsf.ry=l_nNewPosition[4]/60
+//  x_pNewPostion.trsf.rz=l_nNewPosition[5]/60
+  x_pNewPostion.trsf.rx=0
+  x_pNewPostion.trsf.ry=-180
+  x_pNewPostion.trsf.rz=-60
+  delay(0)
+
+end]]></Code>
+  </Program>
+</Programs>

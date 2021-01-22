@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="robotStatusInq" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_rCfgStatus" type="RobotCfgStatus" xsi:type="element" use="reference" />
+      <Parameter name="x_rNowStatus" type="RobotStatus" xsi:type="element" use="reference" />
+      <Parameter name="x_rLastStatus" type="RobotStatus" xsi:type="element" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nNum" type="num" xsi:type="array" size="1" />
+      <Local name="l_nCarteVelTemp" type="num" xsi:type="array" size="6" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //This program is used for acquiring the current robot status which include joint space information(joint position,
+  //joint velocity, joint acceleration) and cartesian space information(cartesian position, cartesian velocity, cartesian
+  //acceleration). The current robot status are used for motion control and feedback information for host ROS controller.
+  //According to last robot status based on specified frame and inqury period, the current joint positions, joint velocities, 
+  //cartesian positions and cartesian velocities of robot will be acquired and the current joint acceleration and cartesian
+  //acceleration of robot will be calculated using differential method. The unit of the variables should be noticed extremely
+  //in cartesian space and joint space.
+  
+  //Acquire the current status of robot from the encoders in joint space.(Unit: degree, degree/second, degree/(second squared))
+  x_rNowStatus.jointSpace.JointPos=$getJntFbk()
+  $getJntSpeedFbk(x_rNowStatus.jointSpace.JointVel)
+  //Calculate the joint acceleration of robot based on last robot status and inqury period.
+  for l_nNum=0 to 5
+    x_rNowStatus.jointSpace.JointAccel[l_nNum]=(x_rNowStatus.jointSpace.JointVel[l_nNum]-x_rLastStatus.jointSpace.JointVel[l_nNum])/x_rCfgStatus.CyclePeriod
+  endFor
+  
+  //Acquire the current status of robot from the encoders in cartesian space.(Unit: millimeter;degree, mm;°/s, mm;°/s^2)
+  x_rNowStatus.cartesianSpace.CartesianPos=$getPosFbk(x_rCfgStatus.ExecuteTool,x_rCfgStatus.RefFrame)
+  x_rNowStatus.cartesianSpace.CarteResVel=$getSpeedFbk(x_rCfgStatus.ExecuteTool,x_rCfgStatus.RefFrame,l_nCarteVelTemp[0],l_nCarteVelTemp[1],l_nCarteVelTemp[2],l_nCarteVelTemp[3],l_nCarteVelTemp[4],l_nCarteVelTemp[5])
+  //A local temp variable is created for cartesian velocity because the last command line is too long.
+  x_rNowStatus.cartesianSpace.CartesianVel=l_nCarteVelTemp
+  //Calculate the cartesian acceleration of robot based on last robot status and inqury period.
+  for l_nNum=0 to 5
+    x_rNowStatus.cartesianSpace.CartesianAccel[l_nNum]=(l_nCarteVelTemp[l_nNum]-x_rLastStatus.cartesianSpace.CartesianVel[l_nNum])/x_rCfgStatus.CyclePeriod
+  endFor
+  
+end]]></Code>
+  </Program>
+</Programs>

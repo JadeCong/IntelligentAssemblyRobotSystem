@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<controller>
+  <String name="remoteMcp" value="Demo" />
+  <String name="testMode" value="Demo" />
+  <String name="mcpMode" value="Demo" />
+  <String name="lli" value="Demo" />
+  <String name="PaintiXen" value="Demo" />
+  <String name="valPlast" value="Demo" />
+  <String name="valTrack" value="Demo" />
+  <String name="valTending" value="Demo" />
+  <String name="alter" value="Demo" />
+  <String name="oemLicence" value="Demo" />
+  <String name="remoteMaintenance" value="Demo" />
+  <String name="pciAccess" value="Demo" />
+  <String name="continuousAxis" value="Demo" />
+  <String name="4axesAbsoluteRobot" value="Demo" />
+  <String name="6axesAbsoluteRobot" value="Demo" />
+  <String name="valKernel" value="Demo" />
+  <String name="uniVAL" value="Demo" />
+  <String name="uniVAL_plc" value="Demo" />
+  <String name="advCtrlFunctions" value="Demo" />
+  <String name="spline" value="Demo" />
+  <String name="carriedPart" value="Demo" />
+  <String name="externalAxis" value="Demo" />
+  <String name="ilc" value="Demo" />
+  <String name="valHSM" value="Demo" />
+  <Bool name="buildBio" value="true" />
+  <Bool name="buildBio2" value="true" />
+  <Bool name="buildMio" value="true" />
+  <Bool name="buildCio" value="true" />
+  <String name="cioBoardConfig" value="SRCAN" />
+  <Bool name="buildSerial1" value="true" />
+  <Bool name="buildSerial2" value="true" />
+  <Bool name="buildSerial3" value="false" />
+  <Bool name="buildSerial4" value="false" />
+  <Bool name="buildSerial5" value="false" />
+  <Bool name="buildSerial6" value="false" />
+  <Bool name="buildSerial7" value="false" />
+  <Bool name="buildSerial8" value="false" />
+  <String name="UserApp" value="usrapp" />
+  <String name="templateDir" value="templates" />
+  <Bool name="buildStarc2" value="true" />
+  <starc2Slot index="0"  board="DUAL-ABZ-CODERS-" />
+  <starc2Slot index="1"  board="DUAL-ABZ-CODERS-" />
+  <starc2Slot index="2"  board="DUAL-ABZ-CODERS-" />
+  <uniVALparams>
+    <String name="config" value="axis" />
+    <String name="fieldbus" value="" />
+  </uniVALparams>
+  <String name="simulMode" value="simulation" />
+  <String name="serialNumber" value="" />
+  <Bool name="buttonWorkingMode" value="true" />
+  <Bool name="traceSignals" value="false" />
+  <Bool name="logging" value="true" />
+  <Uint name="loggerSize" value="1048576" />
+  <Float name="powerShutdownDelay" value="-1" />
+  <String name="standardFiles" value="" />
+  <Float name="lliCycleTime" value="-1" />
+  <Float name="powerHourCount" value="75.581011" />
+</controller>

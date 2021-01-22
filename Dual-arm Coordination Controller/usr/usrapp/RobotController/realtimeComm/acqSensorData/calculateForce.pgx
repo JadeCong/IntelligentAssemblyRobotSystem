@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="calculateForce" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nDetectValue" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nFTValue" type="num" xsi:type="array" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nNum" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //This program is used for calculating the interaction force/torque between the robot endeffector and environment
+  //based on the detected data and the sensitivity from the sensor.
+  
+  //F/T Value=(detected value-zero point value)/main axis sensitivity
+  for l_nNum=0 to 5
+    x_nFTValue[l_nNum]=(x_nDetectValue[l_nNum]-nZeroPoint[l_nNum])/nSensitivity[l_nNum]
+  endFor
+  
+end]]></Code>
+  </Program>
+</Programs>

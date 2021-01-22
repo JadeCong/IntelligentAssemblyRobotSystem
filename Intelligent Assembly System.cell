@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Cell xmlns="http://www.staubli.com/robotics/cell/1">
+  <File path="Assembly Test Controller\Assembly Test Controller.controller" />
+  <File path="Dual-arm Coordination Controller\Dual-arm Coordination Controller.controller" />
+  <File path="Staubli TX90 Controller-Left.controller" />
+  <File path="Staubli TX90 Controller-Right.controller" />
+  <File path="CAD\Intelligent Assembly System.kxml" />
+</Cell>

@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="dataUpdate" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nFTValue" type="num" xsi:type="array" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nNum" type="num" xsi:type="array" size="1" />
+      <Local name="l_pdPosTemp" type="pointRx" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //更新机器人的阻抗参数、参考力及参考运动
+  do
+  //设定or更新阻抗参数（M,B,K）（位置+姿态）----------
+  //质量参数
+  nMass[0,0]=4
+  nMass[1,1]=4
+  nMass[2,2]=4
+  
+  nMass[3,3]=4
+  nMass[4,4]=4
+  nMass[5,5]=4
+  
+  //阻尼参数
+  nDamp[0,0]=100
+  nDamp[1,1]=100
+  nDamp[2,2]=100
+  
+  nDamp[3,3]=100
+  nDamp[4,4]=100
+  nDamp[5,5]=100
+  
+  //刚度参数
+  nStiffness[0,0]=625
+  nStiffness[1,1]=625
+  nStiffness[2,2]=625
+  
+  nStiffness[3,3]=625
+  nStiffness[4,4]=625
+  nStiffness[5,5]=625
+  
+  //设定or更新参考力，参考运动-----------
+  ndForce=0
+  
+  ndAccel=0
+  ndVelocity=0
+  //获取机器人的理想位置（当前位置），并赋值给数组变量，便于程序操作
+  //l_pdPosTemp=$getPosFbk(flange,world)
+  l_pdPosTemp=pNowPosition
+  ndPosition[0]=l_pdPosTemp.trsf.x
+  ndPosition[1]=l_pdPosTemp.trsf.y
+  ndPosition[2]=l_pdPosTemp.trsf.z
+  ndPosition[3]=l_pdPosTemp.trsf.rx
+  ndPosition[4]=l_pdPosTemp.trsf.ry
+  ndPosition[5]=l_pdPosTemp.trsf.rz
+  
+  
+  //设定or更新F/T Sensor数据（力+力矩）----------
+  for l_nNum=0 to 5
+    if l_nNum<=2
+      nForce[l_nNum]=x_nFTValue[l_nNum]
+    else
+      nForce[l_nNum]=x_nFTValue[l_nNum]
+    endIf
+  endFor
+  
+  delay(0.0)
+  
+  until false
+  
+end]]></Code>
+  </Program>
+</Programs>

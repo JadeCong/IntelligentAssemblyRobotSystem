@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="robotStateInq" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_pPoint_Pos" type="pointRx" xsi:type="array" use="reference" />
+      <Parameter name="x_nPoint_Vel" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nPoint_Accel" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_jJoint_Pos" type="jointRx" xsi:type="array" use="reference" />
+      <Parameter name="x_nJoint_Vel" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nJoint_Accel" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nVel" type="num" xsi:type="array" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nJoint_Vel" type="num" xsi:type="array" size="6" />
+      <Local name="l_nNum" type="num" xsi:type="array" size="1" />
+      <Local name="l_nPoint_Vel" type="num" xsi:type="array" size="6" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //==================== 获取机器人执行当前指令过程中的运动状态（位置，速度，加速度(Cartesian/Joint Space)）（注意单位换算） ====================
+  
+  //---------- 获取机器人笛卡尔空间（Cartersian Space）下的运动状态 ----------
+  //应确定4ms末机器人的状态，但是4ms很短，获取中间的状态影响不大，但应尽量接近4ms末
+  //delay(0.003)
+  
+  //获取机器人的位置和姿态（实时从编码器测量得来）（单位：mm,°）
+  x_pPoint_Pos=$getPosFbk(flange,world)
+  
+  //获取机器人的速度（平移+旋转）（单位：mm/s,°/s）
+  x_nVel=$getSpeedFbk(flange,world,l_nPoint_Vel[0],l_nPoint_Vel[1],l_nPoint_Vel[2],l_nPoint_Vel[3],l_nPoint_Vel[4],l_nPoint_Vel[5])
+  
+  //获取（差分计算）机器人的加速度（平移+旋转）（（当前机器人笛卡尔-上一次机器人笛卡尔速度）/循环时间）（单位：mm/s^2,°/s^2）
+  for l_nNum=0 to 5
+    x_nPoint_Accel[l_nNum]=(l_nPoint_Vel[l_nNum]-nNowPointVel[l_nNum])/0.004
+    x_nPoint_Vel[l_nNum]=l_nPoint_Vel[l_nNum]
+  endFor
+  
+  
+  //---------- 获取机器人关节空间（Joint Space）下的运动状态 ----------
+  //获得机器人的关节位置（实时从编码器测量得来）（单位：°）
+  x_jJoint_Pos=$getJntFbk()
+  
+  //获取机器人的关节速度（单位：°/s）
+  $getJntSpeedFbk(l_nJoint_Vel)
+  
+  //获取（差分计算）机器人的关节加速度（（当前机器人关节速度-上一次机器人关节速度）/循环时间）（单位：°/s^2）
+  for l_nNum=0 to 5
+    x_nJoint_Accel[l_nNum]=(l_nJoint_Vel[l_nNum]-nNowJointVel[l_nNum])/0.004
+    x_nJoint_Vel[l_nNum]=l_nJoint_Vel[l_nNum]
+  endFor
+  
+end]]></Code>
+  </Program>
+</Programs>

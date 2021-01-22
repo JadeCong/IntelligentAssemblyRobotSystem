@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Data/2">
+  <Datas>
+    <Data name="jointSpace" access="public" xsi:type="array" type="JointSpace" size="1">
+      <Value key="0">
+        <Field name="jointPos" xsi:type="array" type="JointPos" size="1">
+          <Value key="0">
+            <Field name="jp" xsi:type="array" type="jointRx" size="1" />
+          </Value>
+        </Field>
+        <Field name="jointVel" xsi:type="array" type="JointVel" size="1">
+          <Value key="0">
+            <Field name="jv" xsi:type="array" type="num" size="6" />
+          </Value>
+        </Field>
+        <Field name="jointAccel" xsi:type="array" type="JointAccel" size="1">
+          <Value key="0">
+            <Field name="ja" xsi:type="array" type="num" size="6" />
+          </Value>
+        </Field>
+        <Field name="jointForce" xsi:type="array" type="JointForce" size="1">
+          <Value key="0">
+            <Field name="jf" xsi:type="array" type="num" size="6" />
+          </Value>
+        </Field>
+      </Value>
+    </Data>
+    <Data name="cartesianSpace" access="public" xsi:type="array" type="CartesianSpace" size="1">
+      <Value key="0">
+        <Field name="cartesianPos" xsi:type="array" type="CartesianPos" size="1">
+          <Value key="0">
+            <Field name="cp" xsi:type="array" type="pointRx" size="1" />
+          </Value>
+        </Field>
+        <Field name="cartesianVel" xsi:type="array" type="CartesianVel" size="1">
+          <Value key="0">
+            <Field name="resVel" xsi:type="array" type="num" size="1" />
+            <Field name="cv" xsi:type="array" type="num" size="6" />
+          </Value>
+        </Field>
+        <Field name="cartesianAccel" xsi:type="array" type="CartesianAccel" size="1">
+          <Value key="0">
+            <Field name="ca" xsi:type="array" type="num" size="6" />
+            <Field name="resAccel" xsi:type="array" type="num" size="1" />
+          </Value>
+        </Field>
+        <Field name="cartesianForce" xsi:type="array" type="CartesianForce" size="1">
+          <Value key="0">
+            <Field name="cf" xsi:type="array" type="num" size="6" />
+            <Field name="resForce" xsi:type="array" type="num" size="1" />
+          </Value>
+        </Field>
+      </Value>
+    </Data>
+  </Datas>
+</Database>

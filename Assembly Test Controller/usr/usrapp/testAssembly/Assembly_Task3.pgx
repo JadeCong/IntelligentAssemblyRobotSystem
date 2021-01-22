@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="Assembly_Task3" access="public">
+    <Code><![CDATA[begin
+  
+  //开始装配任务3（夹取内存条并将其插入内存条卡槽中）--------------------
+  putln("Start Assembly Task Three: grip the memory module and insert it into the slot.")
+  
+  //Point1：切换至装配末端工具tTool_3（Gripper），变换姿态并将其移动至内存条托盘中待夹取内存条上方安全高度
+  putln("Moving the gripper to the safe height over the selected memory module in the tray.")
+  //movel(pPointRx_Task3[1],tTool_3,mMdesc_Move)
+  movej(jJointRx_Task3[1],tTool_3,mMdesc_Move)
+  waitEndMove()
+  
+  //Point2：将装配末端工具tTool_3（Gripper）移动至内存条夹取开始点
+  putln("Moving the gripper to the memory module gripping start point.")
+  movel(pPointRx_Task3[2],tTool_3,mMdesc_Approach)
+  waitEndMove()
+  
+  //Point3：将装配末端工具tTool_3（Gripper）移动至内存条夹取结束点，并打开电磁阀EV2夹取内存条
+  putln("Moving the gripper to the memory module gripping end point.")
+  movel(pPointRx_Task3[3],tTool_3,mMdesc_Assembly)
+  waitEndMove() 
+  
+  putln("Turn on the electromagnetic valve EV2 and grip the memory module.")
+  delay(1)
+  dDio_Gripper=false
+  delay(1)
+  
+  //Point4：保持电磁阀EV2打开夹住内存条，并将装配末端工具tTool_3（Gripper）移动至内存条夹取开始点
+  putln("Keep the electromagnetic valve EV2 on and move the gripper to the memory module gripping start point.")
+  movel(pPointRx_Task3[4],tTool_3,mMdesc_Approach)
+  waitEndMove()
+  
+  //Point5：将装配末端工具tTool_3（Gripper）移动至内存条托盘上方安全高度
+  putln("Moving the gripper to the safe height over the memory module tray.")
+  movel(pPointRx_Task3[5],tTool_3,mMdesc_Move)
+  waitEndMove()
+  
+  //Point6：将装配末端工具tTool_3（Gripper）移动至内存条卡槽上方安全高度
+  putln("Moving the gripper to the safe height over the memory module slot.")
+  movel(pPointRx_Task3[6],tTool_3,mMdesc_Move)
+  waitEndMove()
+  
+  //Point7：将装配末端工具tTool_3（Gripper）移动至内存条安装开始点
+  putln("Moving the gripper to the memory module assembling start point.")
+  movel(pPointRx_Task3[7],tTool_3,mMdesc_Approach)
+  waitEndMove()
+  
+  //Point8：将装配末端工具tTool_3（Gripper）移动至内存条安装结束点，并关闭电磁阀EV2释放内存条
+  putln("Moving the gripper to the memory module assembling end point.")
+  movel(pPointRx_Task3[8],tTool_3,mMdesc_Assembly)
+  waitEndMove()
+  
+  putln("Turn off the electromagnetic valve EV2 and release the memory module.")
+  delay(1)
+  dDio_Gripper=true
+  delay(1)
+  
+  //Point9：保持电磁阀EV2关闭，并将装配末端工具tTool_3（Gripper）移动至内存条安装开始点
+  putln("Keep the electromagnetic valve EV2 off and move the gripper to the memory module assembling start point.")
+  movel(pPointRx_Task3[9],tTool_3,mMdesc_Approach)
+  waitEndMove()
+  
+  //Point10：将装配末端工具tTool_3（Gripper）移动至内存条卡槽上方安全高度
+  putln("Moving the gripper to the safe height over the memory module slot.")
+  movel(pPointRx_Task3[10],tTool_3,mMdesc_Move)
+  waitEndMove()
+  
+  //装配子任务完成后等待时间
+  delay(0.5)
+  
+end]]></Code>
+  </Program>
+</Programs>

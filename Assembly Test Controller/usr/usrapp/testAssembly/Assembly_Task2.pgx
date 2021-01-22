@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="Assembly_Task2" access="public">
+    <Code><![CDATA[begin
+  
+  //开始装配任务2（扣紧CPU压盖）--------------------
+  putln("Start Assembly Task Two: fasten the CPU gland.")
+  
+  //Point1：切换至装配末端工具tTool_2（Finger），变换姿态并将其移动至CPU扣紧装置上方安全高度
+  putln("Moving the finger to the safe height over the CPU fastening device.")
+  movel(pPointRx_Task2[1],tTool_2,mMdesc_Move)
+  waitEndMove()
+  
+  //Point2：将装配末端工具tTool_2（Finger）其移动至CPU扣紧开始点
+  putln("Moving the finger to the CPU fastening start point.")
+  movel(pPointRx_Task2[2],tTool_2,mMdesc_Approach)
+  waitEndMove()
+  
+  //Point3-75：将装配末端工具tTool_2（Finger）其移动至CPU扣紧规划点1-73
+  putln("Moving the finger to the CPU fastening planning point1 to point73.")
+  movel(pPointRx_Task2[3],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[4],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[5],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[6],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[7],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[8],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[9],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[10],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[11],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[12],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[13],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[14],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[15],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[16],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[17],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[18],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[19],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[20],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[21],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[22],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[23],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[24],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[25],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[26],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[27],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[28],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[29],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[30],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[31],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[32],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[33],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[34],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[35],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[36],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[37],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[38],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[39],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[40],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[41],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[42],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[43],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[44],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[45],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[46],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[47],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[48],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[49],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[50],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[51],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[52],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[53],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[54],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[55],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[56],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[57],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[58],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[59],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[60],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[61],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[62],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[63],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[64],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[65],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[66],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[67],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[68],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[69],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[70],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[71],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[72],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[73],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[74],tTool_2,mMdesc_Assembly)
+  movel(pPointRx_Task2[75],tTool_2,mMdesc_Assembly)
+  waitEndMove()
+  
+  //Point76：将装配末端工具tTool_2（Finger）其移动至CPU扣紧结束点
+  putln("Moving the finger to the CPU fastening end point.")
+  movel(pPointRx_Task2[76],tTool_2,mMdesc_Approach)
+  waitEndMove()
+  
+  //Point77：将装配末端工具tTool_2（Finger）其移动至工具变换姿态点
+  putln("Moving the finger to the tool posture changing point.")
+  movel(pPointRx_Task2[77],tTool_2,mMdesc_Move)
+  waitEndMove()
+  
+  //Point78：将装配末端工具tTool_2（Finger）其移动至CPU压盖上方安全高度
+  putln("Moving the finger to the safe height over the CPU gland.")
+  movel(pPointRx_Task2[78],tTool_2,mMdesc_Approach)
+  waitEndMove()
+  
+  //装配子任务完成后等待时间
+  delay(0.5)
+  
+end]]></Code>
+  </Program>
+</Programs>

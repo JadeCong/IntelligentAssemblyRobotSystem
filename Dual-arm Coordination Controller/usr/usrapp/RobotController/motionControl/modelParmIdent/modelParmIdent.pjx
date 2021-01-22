@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
+  <Parameters version="s7.9.1" stackSize="5000" millimeterUnit="true" />
+  <Programs>
+    <Program file="modelParmIdent.pgx" />
+    <Program file="start.pgx" />
+    <Program file="stop.pgx" />
+  </Programs>
+  <Database>
+    <Data file="modelParmIdent.dtx" />
+  </Database>
+  <Libraries />
+  <Types>
+    <Type name="ModelParameter" path="Disk://RobotController_Libs/ModelParameter/ModelParameter.pjx" />
+  </Types>
+</Project>

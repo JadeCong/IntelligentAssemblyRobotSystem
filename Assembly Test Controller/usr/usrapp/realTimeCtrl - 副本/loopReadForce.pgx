@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="loopReadForce" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nForceTorque" type="num" xsi:type="array" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nDetectValue" type="num" xsi:type="array" size="6" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //---------- 循环调用函数readDetectValue()读取传感器数值并转换成Force/Torque值 ----------
+  
+  //do
+    
+    //每4ms读取一次即可（否则会导致程序、任务卡死崩溃）
+    //获取传感器的当前检测值
+    call readDeteVal(l_nDetectValue)
+    
+    //计算传感器的Force/Torque数值并输出
+    call calcForce(l_nDetectValue,x_nForceTorque)
+    //delay(0.0)
+    
+  //until false
+  
+end]]></Code>
+  </Program>
+</Programs>

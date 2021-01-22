@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="stop">
+    <Code><![CDATA[begin
+  
+  //将机器人移动至总装配任务的结束点
+  putln("Moving the robot to the whole assembly task end point.")
+  movel(pPointRx_Asse_E,tTool_1,mMdesc_Move)
+  waitEndMove()
+  
+end]]></Code>
+  </Program>
+</Programs>

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
+  <Program name="userInterface" access="public" >
+    <Code><![CDATA[begin
+
+  //将采集的传感器的数据循环显示在用户界面上
+  userPage()
+
+  //循环打印数据
+  do
+    //清理用户界面
+    cls()
+
+    put("Fx: ")
+    putln(nForceTorque[0])
+    put("Fy: ")
+    putln(nForceTorque[1])
+    put("Fz: ")
+    putln(nForceTorque[2])
+    put("Mx: ")
+    putln(nForceTorque[3])
+    put("My: ")
+    putln(nForceTorque[4])
+    put("Mz: ")
+    putln(nForceTorque[5])
+
+    delay(0)
+  until false
+
+end]]></Code>
+  </Program>
+</Programs>

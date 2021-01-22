@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="readDetectValue" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nDetectValue" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_fSensorStatus" type="FlagStatus" xsi:type="element" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nRevData" type="num" xsi:type="array" size="27" />
+      <Local name="l_nNumRev" type="num" xsi:type="array" size="1" />
+      <Local name="l_nNumTemp" type="num" xsi:type="array" size="27" />
+      <Local name="l_nNum" type="num" xsi:type="array" size="1" />
+      <Local name="l_n" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //This program is used for reading the detected force/torque values from the Wacoh sensor and
+  //convert them to the interaction force/torque for the robot operation tasks.
+  
+  
+  //Send the uppercase command R for inquiring the detected fore/torque values 
+  sClientSensor="R"
+  clearBuffer(sClientSensor)
+  l_nNumRev=sioGet(sClientSensor,l_nRevData)
+  //Check the detected data complete or not and
+  if l_nNumRev==27
+    x_fSensorStatus.ForceFlag=1
+  else
+    x_fSensorStatus.ForceFlag=-1
+    putln("Receive detected data failed!")
+  endIf
+  
+  //Parse the received detected data form the Wacoh sensor
+  for l_nNum=0 to 5
+    //Convert the ASCII code to number
+    for l_n=1 to 4
+      call ASCIItoNum(l_nRevData[l_nNum*4+l_n],l_nNumTemp[l_nNum*4+l_n])
+    endFor
+    //Convert the detected number values to force/torque data
+    x_nDetectValue[l_nNum]=l_nNumTemp[l_nNum*4+4]*1+l_nNumTemp[l_nNum*4+3]*16+l_nNumTemp[l_nNum*4+2]*256+l_nNumTemp[l_nNum*4+1]*4096
+  endFor  
+  
+end]]></Code>
+  </Program>
+</Programs>

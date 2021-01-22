@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="exceptionRobot" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_rRobotStatus" type="RobotStatus" xsi:type="element" use="reference" />
+      <Parameter name="x_fRobotStatus" type="FlagStatus" xsi:type="element" use="reference" />
+    </Parameters>
+    <Code><![CDATA[begin
+  
+  //This program is used for checking the current robot status(motion, running) and deciding whether
+  //the robot is running normally. And the robot will be stopped for safety if abnormal situation occurs 
+  //for the robot, otherwise the robot keeps running normally.
+  
+  //The robot will react if the abnormal situation occurs.(the robot has own safety portection mechanism)
+  //Unit: m/s, degree/s
+  nSpeedThreshold[0]=0.5
+  nSpeedThreshold[1]=0.5
+  nSpeedThreshold[2]=0.5
+  nSpeedThreshold[3]=90
+  nSpeedThreshold[4]=90
+  nSpeedThreshold[5]=90
+  
+  if x_rRobotStatus.cartesianSpace.CartesianVel<=nSpeedThreshold
+    x_fRobotStatus.RosFlag=1
+  else
+    x_fRobotStatus.RosFlag=-1
+  endIf
+  
+end]]></Code>
+  </Program>
+</Programs>

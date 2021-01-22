@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
+  <Parameters version="s7.9.1" stackSize="5000" millimeterUnit="true" />
+  <Programs>
+    <Program file="decodeRecvData.pgx" />
+    <Program file="encodeSendData.pgx" />
+    <Program file="initTcpIpSocket.pgx" />
+    <Program file="recvData.pgx" />
+    <Program file="recvRosMsg.pgx" />
+    <Program file="sendData.pgx" />
+    <Program file="sendFbkMsg.pgx" />
+    <Program file="start.pgx" />
+    <Program file="stop.pgx" />
+  </Programs>
+  <Database>
+    <Data file="connectHostRos.dtx" />
+  </Database>
+  <Libraries />
+  <Types>
+    <Type name="FlagStatus" path="Disk://RobotController_Libs/FlagStatus/FlagStatus.pjx" />
+    <Type name="RobotStatus" path="Disk://RobotController_Libs/RobotStatus/RobotStatus.pjx" />
+    <Type name="CommParameter" path="Disk://RobotController_Libs/CommParameter/CommParameter.pjx" />
+  </Types>
+</Project>

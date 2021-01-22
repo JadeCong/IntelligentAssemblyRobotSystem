@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="dataFileOutput" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nFileID" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nForceTorque" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_pNowPointPos" type="pointRx" xsi:type="array" use="reference" />
+      <Parameter name="x_nNowPointVel" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nNowPointAcce" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_jNowJointPos" type="jointRx" xsi:type="array" use="reference" />
+      <Parameter name="x_nNowJointVel" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nNowJointAcce" type="num" xsi:type="array" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nNowJointPos" type="num" xsi:type="array" size="6" />
+      <Local name="l_nNowPointPos" type="num" xsi:type="array" size="6" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //==================== 输出需要的数据（机器人、传感器的状态）到文件，用于机器人模型参数辨识、分析及规划控制 ====================
+  
+  //写入传感器数据到文件1
+  $fileSet(x_nFileID[0],x_nForceTorque[0],6)
+  
+  //写入机器人笛卡尔空间下（Cartesian Space）数据到文件2
+  l_nNowPointPos[0]=x_pNowPointPos.trsf.x
+  l_nNowPointPos[1]=x_pNowPointPos.trsf.y
+  l_nNowPointPos[2]=x_pNowPointPos.trsf.z
+  l_nNowPointPos[3]=x_pNowPointPos.trsf.rx
+  l_nNowPointPos[4]=x_pNowPointPos.trsf.ry
+  l_nNowPointPos[5]=x_pNowPointPos.trsf.rz
+  
+  $fileSet(x_nFileID[1],l_nNowPointPos[0],6)
+  $fileSet(x_nFileID[1],x_nNowPointVel[0],6)
+  $fileSet(x_nFileID[1],x_nNowPointAcce[0],6)
+  
+  //写入机器人关节空间下（Joint Space）数据到文件3
+  l_nNowJointPos[0]=x_jNowJointPos.j1
+  l_nNowJointPos[1]=x_jNowJointPos.j2
+  l_nNowJointPos[2]=x_jNowJointPos.j3
+  l_nNowJointPos[3]=x_jNowJointPos.j4
+  l_nNowJointPos[4]=x_jNowJointPos.j5
+  l_nNowJointPos[5]=x_jNowJointPos.j6
+  
+  $fileSet(x_nFileID[2],l_nNowJointPos[0],6)
+  $fileSet(x_nFileID[2],x_nNowJointVel[0],6)
+  $fileSet(x_nFileID[2],x_nNowJointAcce[0],6)
+  
+end]]></Code>
+  </Program>
+</Programs>

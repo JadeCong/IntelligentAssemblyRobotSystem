@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="Assembly_Task1" access="public">
+    <Code><![CDATA[begin
+  
+  //开始装配任务1（吸取CPU并将其移至CPU卡槽中）--------------------
+  putln("Start Assembly Task One: suck up the CPU and move it into the slot.")
+  
+  //Point1：切换至装配末端工具tTool_1（Sucker），并将其移动至CPU托盘中待吸取CPU上方安全高度
+  putln("Moving the sucker to the safe height over the selected CPU in the tray.")
+  movel(pPointRx_Task1[1],tTool_1,mMdesc_Move)
+  waitEndMove()
+  
+  //Point2：将装配末端工具tTool_1（Sucker）移动至CPU吸取开始点
+  putln("Moving the sucker to the CPU drawing start point.")
+  movel(pPointRx_Task1[2],tTool_1,mMdesc_Approach)
+  waitEndMove()
+  
+  //Point3：将装配末端工具tTool_1（Sucker）移动至CPU吸取结束点，并打开电磁阀EV1吸取CPU
+  putln("Moving the sucker to the CPU drawing end point.")
+  movel(pPointRx_Task1[3],tTool_1,mMdesc_Assembly)
+  waitEndMove()
+  
+  putln("Turn on the electromagnetic valve EV1 and suck up the CPU.")
+  delay(1)
+  dDio_Sucker=true
+  delay(1)
+  
+  //Point4：保持电磁阀EV1打开吸住CPU，并将装配末端工具tTool_1（Sucker）移动至CPU吸取开始点
+  putln("Keep the electromagnetic valve EV1 on and move the sucker to the CPU drawing start point.")
+  movel(pPointRx_Task1[4],tTool_1,mMdesc_Approach)
+  waitEndMove()
+  
+  //Point5：将装配末端工具tTool_1（Sucker）移动至CPU托盘上方安全高度
+  putln("Moving the sucker to the safe height over the CPU tray.")
+  movel(pPointRx_Task1[5],tTool_1,mMdesc_Move)
+  waitEndMove()
+  
+  //Point6：将装配末端工具tTool_1（Sucker）移动至CPU卡槽上方安全高度
+  putln("Moving the sucker to the safe height over the CPU slot.")
+  movel(pPointRx_Task1[6],tTool_1,mMdesc_Move)
+  waitEndMove()
+  
+  //Point7：将装配末端工具tTool_1（Sucker）移动至CPU安装开始点
+  putln("Moving the sucker to the CPU assembling start point.")
+  movel(pPointRx_Task1[7],tTool_1,mMdesc_Approach)
+  waitEndMove()
+  
+  //Point8：将装配末端工具tTool_1（Sucker）移动至CPU安装结束点，并关闭电磁阀EV1释放CPU
+  putln("Moving the sucker to the CPU assembling end point.")
+  movel(pPointRx_Task1[8],tTool_1,mMdesc_Assembly)
+  waitEndMove()
+  
+  putln("Turn off the electromagnetic valve EV1 and release the CPU.")
+  delay(1)
+  dDio_Sucker=false
+  delay(1)
+  
+  //Point9：保持电磁阀EV1关闭，并将装配末端工具tTool_1（Sucker）移动至CPU安装开始点
+  putln("Keep the electromagnetic valve EV1 off and move the sucker to the CPU assembling start point.")
+  movel(pPointRx_Task1[9],tTool_1,mMdesc_Approach)
+  waitEndMove()
+  
+  //Point10：将装配末端工具tTool_1（Sucker）移动至CPU卡槽上方安全高度
+  putln("Moving the sucker to the safe height over the CPU slot.")
+  movel(pPointRx_Task1[10],tTool_1,mMdesc_Move)
+  waitEndMove()  
+  
+  //装配子任务完成后等待时间
+  delay(0.5)
+  
+end]]></Code>
+  </Program>
+</Programs>

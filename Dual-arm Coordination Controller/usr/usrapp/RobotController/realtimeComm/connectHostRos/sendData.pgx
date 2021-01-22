@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="sendData" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_sSioSocket" type="sio" xsi:type="element" use="reference" />
+      <Parameter name="x_nSendData" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_rRobotStatus" type="RobotStatus" xsi:type="element" use="reference" />
+      <Parameter name="x_fDataStatus" type="FlagStatus" xsi:type="element" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nSendNum" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //This program is used for sending the feedback data to the host ROS contorller.
+  
+  //call the encodeSendData function to encrypt the sent data
+  call encodeSendData(x_nSendData,x_rRobotStatus)
+  
+  //send the encrypted data to the host ROS controller
+  l_nSendNum=sioSet(x_sSioSocket,x_nSendData)
+  if l_nSendNum==52
+    x_fDataStatus.RosFlag=1
+  else
+    x_fDataStatus.RosFlag=-1
+  endIf
+  
+end]]></Code>
+  </Program>
+</Programs>

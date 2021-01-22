@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Data/2">
+  <Datas>
+    <Data name="mNomSpeed" access="private" xsi:type="array" type="mdesc" size="1" />
+    <Data name="soTcpIpFbk" access="public" xsi:type="array" type="sio" size="1" />
+    <Data name="siTcpIpMotion" access="public" xsi:type="array" type="sio" size="1" />
+    <Data name="nRecvData" access="public" xsi:type="array" type="num" size="53" />
+    <Data name="cRosMotionParm" access="public" xsi:type="array" type="CommParameter" size="1">
+      <Value key="0">
+        <Field name="port" xsi:type="array" type="num" size="1" />
+        <Field name="target" xsi:type="array" type="string" size="1" />
+        <Field name="clients" xsi:type="array" type="num" size="1" />
+        <Field name="endOfString" xsi:type="array" type="num" size="1" />
+        <Field name="timeOut" xsi:type="array" type="num" size="1" />
+        <Field name="baudRate" xsi:type="array" type="num" size="1" />
+        <Field name="parity" xsi:type="array" type="string" size="1" />
+        <Field name="bits" xsi:type="array" type="num" size="1" />
+        <Field name="stopBits" xsi:type="array" type="num" size="1" />
+        <Field name="mode" xsi:type="array" type="string" size="1" />
+        <Field name="flowControl" xsi:type="array" type="string" size="1" />
+        <Field name="nagle" xsi:type="array" type="bool" size="1" />
+      </Value>
+    </Data>
+    <Data name="cRosFbkParm" access="public" xsi:type="array" type="CommParameter" size="1">
+      <Value key="0">
+        <Field name="port" xsi:type="array" type="num" size="1" />
+        <Field name="target" xsi:type="array" type="string" size="1" />
+        <Field name="clients" xsi:type="array" type="num" size="1" />
+        <Field name="endOfString" xsi:type="array" type="num" size="1" />
+        <Field name="timeOut" xsi:type="array" type="num" size="1" />
+        <Field name="baudRate" xsi:type="array" type="num" size="1" />
+        <Field name="parity" xsi:type="array" type="string" size="1" />
+        <Field name="bits" xsi:type="array" type="num" size="1" />
+        <Field name="stopBits" xsi:type="array" type="num" size="1" />
+        <Field name="mode" xsi:type="array" type="string" size="1" />
+        <Field name="flowControl" xsi:type="array" type="string" size="1" />
+        <Field name="nagle" xsi:type="array" type="bool" size="1" />
+      </Value>
+    </Data>
+    <Data name="fRosStatus" access="public" xsi:type="array" type="FlagStatus" size="1">
+      <Value key="0">
+        <Field name="ForceFlag" xsi:type="array" type="num" size="1" />
+        <Field name="RosFlag" xsi:type="array" type="num" size="1" />
+        <Field name="RobotFlag" xsi:type="array" type="num" size="1" />
+      </Value>
+    </Data>
+    <Data name="nSendData" access="public" xsi:type="array" type="num" size="52" />
+  </Datas>
+</Database>

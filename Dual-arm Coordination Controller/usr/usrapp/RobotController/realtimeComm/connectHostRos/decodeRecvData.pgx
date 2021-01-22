@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="decodeRecvData" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nRecvData" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_rRobotStatus" type="RobotStatus" xsi:type="element" use="reference" />
+      <Parameter name="x_fDataStatus" type="FlagStatus" xsi:type="element" use="reference" />
+      <Parameter name="x_nRosFlagCmd" type="num" xsi:type="element" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nNum" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //This program is used for decoding the received data from host ROS contorlller.
+  
+  //suppose the received data containing 1 identifier, 24 joint status 27 cartesian status and 1 ROS flag
+  //and ensure the received data intact
+  if size(x_nRecvData)==53
+    //assert the received ROS massages OK
+    x_fDataStatus.RosFlag=1
+    //decode the received data to the format of robot controller(Staubli SRS format)
+    x_rRobotStatus.jointSpace.JointPos.j1=x_nRecvData[1]
+    x_rRobotStatus.jointSpace.JointPos.j2=x_nRecvData[2]
+    x_rRobotStatus.jointSpace.JointPos.j3=x_nRecvData[3]
+    x_rRobotStatus.jointSpace.JointPos.j4=x_nRecvData[4]
+    x_rRobotStatus.jointSpace.JointPos.j5=x_nRecvData[5]
+    x_rRobotStatus.jointSpace.JointPos.j6=x_nRecvData[6]
+    
+    x_rRobotStatus.cartesianSpace.CartesianPos.trsf.x=x_nRecvData[25]
+    x_rRobotStatus.cartesianSpace.CartesianPos.trsf.y=x_nRecvData[26]
+    x_rRobotStatus.cartesianSpace.CartesianPos.trsf.z=x_nRecvData[27]
+    x_rRobotStatus.cartesianSpace.CartesianPos.trsf.rx=x_nRecvData[28]
+    x_rRobotStatus.cartesianSpace.CartesianPos.trsf.ry=x_nRecvData[29]
+    x_rRobotStatus.cartesianSpace.CartesianPos.trsf.rz=x_nRecvData[30]
+    
+    for l_nNum=0 to 5
+      x_rRobotStatus.jointSpace.JointVel[l_nNum]=x_nRecvData[l_nNum+7]
+      x_rRobotStatus.jointSpace.JointAccel[l_nNum]=x_nRecvData[l_nNum+13]
+      x_rRobotStatus.jointSpace.JointForce[l_nNum]=x_nRecvData[l_nNum+19]
+      
+      x_rRobotStatus.cartesianSpace.CartesianVel[l_nNum]=x_nRecvData[l_nNum+31]
+      x_rRobotStatus.cartesianSpace.CartesianAccel[l_nNum]=x_nRecvData[l_nNum+37]
+      x_rRobotStatus.cartesianSpace.CartesianForce[l_nNum]=x_nRecvData[l_nNum+43]
+    endFor
+    
+    x_rRobotStatus.cartesianSpace.CarteResVel=x_nRecvData[49]
+    x_rRobotStatus.cartesianSpace.CarteResAccel=x_nRecvData[50]
+    x_rRobotStatus.cartesianSpace.CarteResForce=x_nRecvData[51]
+    x_nRosFlagCmd=x_nRecvData[52]
+    
+  else
+    x_fDataStatus.RosFlag=-1
+    
+  endIf
+  
+end]]></Code>
+  </Program>
+</Programs>

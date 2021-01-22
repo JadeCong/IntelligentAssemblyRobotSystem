@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
+  <Parameters version="s7.9.1" stackSize="5000" millimeterUnit="true" />
+  <Programs>
+    <Program file="start.pgx" />
+    <Program file="stop.pgx" />
+  </Programs>
+  <Database>
+    <Data file="RobotController.dtx" />
+  </Database>
+  <Libraries>
+    <Library alias="connectHostRos" path="./realtimeComm/connectHostRos/connectHostRos.pjx" />
+    <Library alias="acqSensorData" path="./realtimeComm/acqSensorData/acqSensorData.pjx" />
+    <Library alias="exceptionHandle" path="./exceptionHandle/exceptionHandle.pjx" />
+    <Library alias="newMoveCmd" path="./motionControl/newMoveCmd/newMoveCmd.pjx" />
+    <Library alias="robotMove" path="./motionControl/robotMove/robotMove.pjx" />
+    <Library alias="robotPlanner" path="./motionControl/robotPlanner/robotPlanner.pjx" />
+    <Library alias="robotStatusInq" path="./motionControl/robotStatusInq/robotStatusInq.pjx" />
+    <Library alias="modelParmIdent" path="./motionControl/modelParmIdent/modelParmIdent.pjx" />
+  </Libraries>
+  <Types>
+    <Type name="FlagStatus" path="Disk://RobotController_Libs/FlagStatus/FlagStatus.pjx" />
+  </Types>
+</Project>

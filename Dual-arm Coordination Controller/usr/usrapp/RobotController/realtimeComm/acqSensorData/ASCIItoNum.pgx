@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="ASCIItoNum" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nAsc" type="num" xsi:type="element" use="reference" />
+      <Parameter name="x_nNum" type="num" xsi:type="element" use="reference" />
+    </Parameters>
+    <Code><![CDATA[begin
+  
+  //This program is used for converting the hexadecimal ASCII code to the decimal number
+  if x_nAsc>=48 and x_nAsc<=57
+    x_nNum=x_nAsc-48
+  elseIf x_nAsc>=65 and x_nAsc<=70
+    x_nNum=x_nAsc-65+10
+  endIf
+  
+end]]></Code>
+  </Program>
+</Programs>

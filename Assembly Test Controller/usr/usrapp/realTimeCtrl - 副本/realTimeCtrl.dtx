@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Data/2">
+  <Datas>
+    <Data name="bActive" access="public" xsi:type="array" type="bool" size="1">
+      <Value key="0" value="true" />
+    </Data>
+    <Data name="bOverRun" access="public" xsi:type="array" type="bool" size="3">
+      <Value key="0" value="true" />
+      <Value key="1" value="true" />
+      <Value key="2" value="true" />
+    </Data>
+    <Data name="jJoint_RT_Start" access="public" xsi:type="array" type="jointRx" size="1">
+      <Value key="0" j1="50.2" j2="40" j3="75" j5="65" />
+    </Data>
+    <Data name="jNowJointPos" access="public" xsi:type="array" type="jointRx" size="1" />
+    <Data name="jdJointPos" access="public" xsi:type="array" type="jointRx" size="1" />
+    <Data name="mMdesc_Init" access="private" xsi:type="array" type="mdesc" size="1">
+      <Value key="0" accel="25" vel="50" decel="25" tmax="500" rmax="99" />
+    </Data>
+    <Data name="mMdesc_RT" access="public" xsi:type="array" type="mdesc" size="1">
+      <Value key="0" accel="25" vel="50" decel="25" tmax="500" rmax="99" blend="off" />
+    </Data>
+    <Data name="mNomSpeed" access="private" xsi:type="array" type="mdesc" size="1" />
+    <Data name="nDamp" access="public" xsi:type="array" type="num" size="6 6">
+      <Value key="0,0" value="10" />
+      <Value key="1,1" value="10" />
+      <Value key="2,2" value="10" />
+      <Value key="3,3" value="10" />
+      <Value key="4,4" value="10" />
+      <Value key="5,5" value="10" />
+    </Data>
+    <Data name="nFileID" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="nForceTorque" access="public" xsi:type="array" type="num" size="6">
+      <Value key="0" value="-0.458435" />
+      <Value key="1" value="-0.0611247" />
+      <Value key="2" value="-0.0305157" />
+      <Value key="3" value="0.00182448" />
+      <Value key="4" value="0.00243784" />
+    </Data>
+    <Data name="nMass" access="public" xsi:type="array" type="num" size="6 6">
+      <Value key="0,0" value="1" />
+      <Value key="1,1" value="1" />
+      <Value key="2,2" value="1" />
+      <Value key="3,3" value="1" />
+      <Value key="4,4" value="1" />
+      <Value key="5,5" value="1" />
+    </Data>
+    <Data name="nNowCarteVel" access="public" xsi:type="array" type="num" size="1" />
+    <Data name="nNowJointAccel" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="nNowJointVel" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="nNowPointAccel" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="nNowPointVel" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="nPort" access="public" xsi:type="array" type="num" size="1">
+      <Value key="0" value="5001" />
+    </Data>
+    <Data name="nSensitivity" access="public" xsi:type="array" type="num" size="6">
+      <Value key="0" value="32.72" />
+      <Value key="1" value="32.72" />
+      <Value key="2" value="32.77" />
+      <Value key="3" value="1644.3" />
+      <Value key="4" value="1640.8" />
+      <Value key="5" value="1635" />
+    </Data>
+    <Data name="nSioTimeOut" access="public" xsi:type="array" type="num" size="1">
+      <Value key="0" value="5" />
+    </Data>
+    <Data name="nStiffness" access="public" xsi:type="array" type="num" size="6 6">
+      <Value key="0,0" value="25" />
+      <Value key="1,1" value="25" />
+      <Value key="2,2" value="25" />
+      <Value key="3,3" value="25" />
+      <Value key="4,4" value="25" />
+      <Value key="5,5" value="25" />
+    </Data>
+    <Data name="nZeroPoint" access="public" xsi:type="array" type="num" size="6">
+      <Value key="0" value="8211" />
+      <Value key="1" value="8189" />
+      <Value key="2" value="8176" />
+      <Value key="3" value="8194" />
+      <Value key="4" value="8176" />
+      <Value key="5" value="8189" />
+    </Data>
+    <Data name="ndForceTorque" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="ndJointAccel" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="ndJointVel" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="ndPointAccel" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="ndPointVel" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="pNowPointPos" access="public" xsi:type="array" type="pointRx" size="1">
+      <Value key="0" fatherId="world[0]" />
+    </Data>
+    <Data name="pPointCommand" access="public" xsi:type="array" type="pointRx" size="1">
+      <Value key="0" fatherId="world[0]" />
+    </Data>
+    <Data name="pdPointPos" access="public" xsi:type="array" type="pointRx" size="1">
+      <Value key="0" fatherId="world[0]" />
+    </Data>
+    <Data name="sClient" access="public" xsi:type="array" type="sio" size="1">
+      <Value key="0" link="Socket\FTSensor" />
+    </Data>
+    <Data name="tTool" access="private" xsi:type="array" type="tool" size="1">
+      <Value key="0" rz="180" fatherId="flange[0]" ioLink="valve1" />
+    </Data>
+  </Datas>
+</Database>

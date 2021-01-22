@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="userInterface" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nFTData" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_pPointPos" type="pointRx" xsi:type="array" use="reference" />
+      <Parameter name="x_nPointVel" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nPointAccel" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_jJointPos" type="jointRx" xsi:type="array" use="reference" />
+      <Parameter name="x_nJointVel" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nJointAccel" type="num" xsi:type="array" use="reference" />
+    </Parameters>
+    <Code><![CDATA[begin
+  
+  //===================== 更新显示传感器数据和机器人当前状态 =====================
+  
+  //启动用户界面
+  userPage()
+  
+  
+  //循环显示数据
+  while true
+    
+    //清理用户界面
+    cls()
+    
+    
+    //显示传感器数据
+    //gotoxy(0,7)
+    putln("Force/Torque Sensor Data")
+    
+    //gotoxy(1,0)
+    put("Fx:")
+    putln(x_nFTData[0])
+    //gotoxy(1,13)
+    put("Fy:")
+    putln(x_nFTData[1])
+    //gotoxy(1,26)
+    put("Fz:")
+    putln(x_nFTData[2])
+    
+    //gotoxy(2,0)
+    put("Mx:")
+    putln(x_nFTData[3])
+    //gotoxy(2,13)
+    put("My:")
+    putln(x_nFTData[4])
+    //gotoxy(2,26)
+    put("Mz:")
+    putln(x_nFTData[5])
+    
+    
+    //显示机器人状态（位置，速度，加速度/关节位置，速度，加速度）
+    //gotoxy(4,9)
+    putln("Robot Current State")
+    
+    //Cartesian Position
+    //gotoxy(5,0)
+    put("X:")
+    putln(x_pPointPos.trsf.x)
+    //gotoxy(5,13)
+    put("Y:")
+    putln(x_pPointPos.trsf.y)
+    //gotoxy(5,26)
+    put("Z:")
+    putln(x_pPointPos.trsf.z)
+    
+    //gotoxy(6,0)
+    put("Rx:")
+    putln(x_pPointPos.trsf.rx)
+    //gotoxy(6,13)
+    put("Ry:")
+    putln(x_pPointPos.trsf.ry)
+    //gotoxy(6,26)
+    put("Rz:")
+    putln(x_pPointPos.trsf.rz)
+    
+    
+//    //显示传感器数据
+//    gotoxy(0,7)
+//    putln("Force/Torque Sensor Data")
+//    
+//    gotoxy(1,0)
+//    put("Fx:")
+//    put(x_nFTData[0])
+//    gotoxy(1,13)
+//    put("Fy:")
+//    put(x_nFTData[1])
+//    gotoxy(1,26)
+//    put("Fz:")
+//    put(x_nFTData[2])
+//    
+//    gotoxy(2,0)
+//    put("Mx:")
+//    put(x_nFTData[3])
+//    gotoxy(2,13)
+//    put("My:")
+//    put(x_nFTData[4])
+//    gotoxy(2,26)
+//    put("Mz:")
+//    put(x_nFTData[5])
+//    
+//    
+//    //显示机器人状态（位置，速度，加速度/关节位置，速度，加速度）
+//    gotoxy(4,9)
+//    putln("Robot Current State")
+//    
+//    //Cartesian Position
+//    gotoxy(5,0)
+//    put("X:")
+//    put(x_pPointPos.trsf.x)
+//    gotoxy(5,13)
+//    put("Y:")
+//    put(x_pPointPos.trsf.y)
+//    gotoxy(5,26)
+//    put("Z:")
+//    put(x_pPointPos.trsf.z)
+//    
+//    gotoxy(6,0)
+//    put("Rx:")
+//    put(x_pPointPos.trsf.rx)
+//    gotoxy(6,13)
+//    put("Ry:")
+//    put(x_pPointPos.trsf.ry)
+//    gotoxy(6,26)
+//    put("Rz:")
+//    put(x_pPointPos.trsf.rz)
+//    
+//    //Cartesian Velocity
+//    gotoxy(7,0)
+//    put("X':")
+//    put(x_nPointVel[0])
+//    gotoxy(7,13)
+//    put("Y':")
+//    put(x_nPointVel[1])
+//    gotoxy(7,26)
+//    put("Z':")
+//    put(x_nPointVel[2])
+//    
+//    gotoxy(8,0)
+//    put("Rx':")
+//    put(x_nPointVel[3])
+//    gotoxy(8,13)
+//    put("Ry':")
+//    put(x_nPointVel[4])
+//    gotoxy(8,26)
+//    put("Rz':")
+//    put(x_nPointVel[5])
+//    
+//    //Joint Position
+//    gotoxy(9,0)
+//    put("J1:")
+//    put(x_jJointPos.j1)
+//    gotoxy(9,13)
+//    put("J2:")
+//    put(x_jJointPos.j2)
+//    gotoxy(9,26)
+//    put("J3:")
+//    put(x_jJointPos.j3)
+//    
+//    gotoxy(10,0)
+//    put("J4:")
+//    putln(x_jJointPos.j4)
+//    gotoxy(10,13)
+//    put("J5:")
+//    putln(x_jJointPos.j5)
+//    gotoxy(10,26)
+//    put("J6:")
+//    putln(x_jJointPos.j6)
+//    
+//    //Joint Velocity
+//    gotoxy(11,0)
+//    put("J1':")
+//    put(x_nJointVel[0])
+//    gotoxy(11,13)
+//    put("J2':")
+//    put(x_nJointVel[1])
+//    gotoxy(11,26)
+//    put("J3':")
+//    put(x_nJointVel[2])
+//    
+//    gotoxy(12,0)
+//    put("J4':")
+//    put(x_nJointVel[3])
+//    gotoxy(12,13)
+//    put("J5':")
+//    put(x_nJointVel[4])
+//    gotoxy(12,26)
+//    put("J6':")
+//    put(x_nJointVel[5])
+    
+    
+    //强制结束当前任务，进入下一次sequence循环
+    delay(0.0)
+    
+  endWhile
+  
+end]]></Code>
+  </Program>
+</Programs>

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2" >
+  <Program name="readDeteVal" access="public" >
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1" >
+      <Parameter name="x_nDetectValue" type="num" use="reference" xsi:type="array" dimensions="1" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nCache" type="num" xsi:type="array" size="27" />
+      <Local name="l_nNum" type="num" xsi:type="array" size="1" />
+      <Local name="l_nNumRec" type="num" xsi:type="array" size="1" />
+      <Local name="l_nRecData" type="num" xsi:type="array" size="27" />
+      <Local name="l_nSequence" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+
+  //向Wacoh Force/Torque Sensor发送指令请求数据并检查是否接收成功----------
+  //发送单次指令R请求数据
+  sClient="R"
+  //sioSet(sClient,nCommand)
+  clearBuffer(sClient)
+  l_nNumRec=sioGet(sClient,l_nRecData)
+
+  //检查是否接收成功
+  //  if l_nNumRec==27
+  //    putln("Receive data success!")
+  //    delay(0.5)
+  //  else
+  //    putln("Receive data fail!")
+  //    delay(0.5)
+  //  endIf
+
+  //解析指令R返回的数据----------
+  for l_nSequence=0 to 5
+
+    //for l_nNum=1 to 3
+    for l_nNum=1 to 4
+      //将ASCII码转换成数字（注意是否包含序号，若包含需从1开始？）
+      call ASCIItoNum(l_nRecData[l_nSequence*4+l_nNum],l_nCache[l_nSequence*4+l_nNum])
+    endFor
+
+    //将数字转换成力的检测值（LSB）（注意形参维数是否正确？）
+    x_nDetectValue[l_nSequence]=l_nCache[l_nSequence*4+4]*1+l_nCache[l_nSequence*4+3]*16+l_nCache[l_nSequence*4+2]*256+l_nCache[l_nSequence*4+1]*4096
+
+  endFor
+
+end]]></Code>
+  </Program>
+</Programs>

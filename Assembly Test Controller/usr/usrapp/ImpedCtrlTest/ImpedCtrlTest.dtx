@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Data/2">
+  <Datas>
+    <Data name="mNomSpeed" access="private" xsi:type="array" type="mdesc" size="1" />
+    <Data name="bOverRun" access="public" xsi:type="array" type="bool" size="1">
+      <Value key="0" value="true" />
+    </Data>
+    <Data name="nMass" access="public" xsi:type="array" type="num" size="6 6">
+      <Value key="0,0" value="1" />
+      <Value key="1,1" value="1" />
+      <Value key="2,2" value="1" />
+      <Value key="3,3" value="1" />
+      <Value key="4,4" value="1" />
+      <Value key="5,5" value="1" />
+    </Data>
+    <Data name="nStiffness" access="public" xsi:type="array" type="num" size="6 6">
+      <Value key="0,0" value="25" />
+      <Value key="1,1" value="25" />
+      <Value key="2,2" value="25" />
+      <Value key="3,3" value="25" />
+      <Value key="4,4" value="25" />
+      <Value key="5,5" value="25" />
+    </Data>
+    <Data name="nDamp" access="public" xsi:type="array" type="num" size="6 6">
+      <Value key="0,0" value="10" />
+      <Value key="1,1" value="10" />
+      <Value key="2,2" value="10" />
+      <Value key="3,3" value="10" />
+      <Value key="4,4" value="10" />
+      <Value key="5,5" value="10" />
+    </Data>
+    <Data name="ndForce" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="ndAccel" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="ndVelocity" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="nForce" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="ndPosition" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="mImpedSpeed" access="public" xsi:type="array" type="mdesc" size="1">
+      <Value key="0" blend="off" />
+    </Data>
+    <Data name="pNowPosition" access="public" xsi:type="array" type="pointRx" size="1">
+      <Value key="0" fatherId="world[0]" />
+    </Data>
+    <Data name="nNowVelocity" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="nNowAccel" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="nLastVelocity" access="public" xsi:type="array" type="num" size="6" />
+    <Data name="nNowClock" access="public" xsi:type="array" type="num" size="1" />
+    <Data name="nTime" access="public" xsi:type="array" type="num" size="1" />
+    <Data name="sClient" access="public" xsi:type="array" type="sio" size="1">
+      <Value key="0" link="Socket\FTSensor" />
+    </Data>
+    <Data name="nForceTorque" access="public" xsi:type="array" type="num" size="6">
+      <Value key="0" value="-0.458435" />
+      <Value key="1" value="-0.0611247" />
+      <Value key="2" value="-0.0305157" />
+      <Value key="3" value="0.00182448" />
+      <Value key="4" value="0.00243784" />
+    </Data>
+    <Data name="nPort" access="public" xsi:type="array" type="num" size="1">
+      <Value key="0" value="5001" />
+    </Data>
+    <Data name="nSensitivity" access="public" xsi:type="array" type="num" size="6">
+      <Value key="0" value="32.72" />
+      <Value key="1" value="32.72" />
+      <Value key="2" value="32.77" />
+      <Value key="3" value="1644.3" />
+      <Value key="4" value="1640.8" />
+      <Value key="5" value="1635" />
+    </Data>
+    <Data name="nSioTimeOut" access="public" xsi:type="array" type="num" size="1">
+      <Value key="0" value="5" />
+    </Data>
+    <Data name="nZeroPoint" access="public" xsi:type="array" type="num" size="6">
+      <Value key="0" value="8211" />
+      <Value key="1" value="8189" />
+      <Value key="2" value="8176" />
+      <Value key="3" value="8194" />
+      <Value key="4" value="8176" />
+      <Value key="5" value="8189" />
+    </Data>
+    <Data name="pCommand" access="public" xsi:type="array" type="pointRx" size="1">
+      <Value key="0" fatherId="world[0]" />
+    </Data>
+  </Datas>
+</Database>

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="start">
+    <Locals>
+      <Local name="l_nCyclePeriod" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //This program is running on the robot controller for controlling the robot based on the motion command
+  //from the host ROS controller through Ethernet TCP/IP socket. And the robot will stop for protect itself
+  //and operating objects from damaging if any flag error(ROS/Robot/Force flag) occurs. Based on the motion
+  //command, the robot finishes the assembly tasks.
+  
+  
+  //define the motion control/status feedback/force acquisition frequency 250Hz(cycle period: 4ms)
+  l_nCyclePeriod=0.004
+  
+  //define the five kinds of tasks for the task sequence
+  sCommTaskName="realtimeComm"
+  sMotionTaskName="MotionControl"
+  sDataTaskName="dataConverter"
+  sExceptTaskName="exceptionHandle"
+  sScreenTaskName="userInterface"
+  
+  //initialize the realtime communication TCP/IP socket parameter
+  sMotionSocket="io:RosCmd"
+  sFbkSocket="io:FbkStatus"
+  call connectHostRos:initTcpIpSocket(sMotionSocket,sFbkSocket,fFlagStatus)
+  
+  //initialize the all flag status (set them all OK(zero value))
+  //minus one(-1):abnormal condition; zero(0):unknown condition; one(1):normal condition
+  fFlagStatus.ForceFlag=0
+  fFlagStatus.ForceFlag=0
+  fFlagStatus.RobotFlag=0
+  
+  // reset motion, potentially setting a start joint position for calling autoConnect() in the future
+  resetMotion()
+  
+  //clear up the screen
+  cls()
+  
+  //
+  
+  
+  
+  
+  
+end]]></Code>
+  </Program>
+</Programs>

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="robotPlanner" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_cDesiredStat" type="CartesianSpace" xsi:type="element" use="reference" />
+      <Parameter name="x_jDesiredStat" type="JointSpace" xsi:type="element" use="reference" />
+      <Parameter name="x_cRcvPlanData" type="CartesianSpace" xsi:type="element" use="reference" />
+      <Parameter name="x_jRevPlanData" type="JointSpace" xsi:type="element" use="reference" />
+      <Parameter name="x_fContactStat" type="FlagStatus" xsi:type="element" use="reference" />
+    </Parameters>
+    <Code><![CDATA[begin
+  
+  //This program is used for planning the robot motion status and interaction force based on operation tasks.
+  //The planning data are from host controller through the Ethernet realtime communication. And the unit of these
+  //data should be noticed especially.
+  
+  
+  //Robot Motion Status(Unit: m,m/s,m/s^2; °,°/s,°/s^2)
+  //Cartesian Space
+  x_cDesiredStat.CartesianPos=x_cRcvPlanData.CartesianPos
+  x_cDesiredStat.CartesianVel=x_cRcvPlanData.CartesianVel
+  x_cDesiredStat.CartesianAccel=x_cRcvPlanData.CartesianAccel
+  //Joint Space
+  x_jDesiredStat.JointPos=x_jRevPlanData.JointPos
+  x_jDesiredStat.JointVel=x_jRevPlanData.JointVel
+  x_jDesiredStat.JointAccel=x_jRevPlanData.JointAccel
+  
+  //Interaction Force between robot endeffector and environment(Unit: N,N/m)
+  //Cartesian Space
+  x_cDesiredStat.CartesianForce=x_cRcvPlanData.CartesianForce
+  //Joint Space
+  x_jDesiredStat.JointForce=x_jRevPlanData.JointForce
+  
+  //Change the control pattern based on the status of contact between the robot endeffector and environment.
+  if x_fContactStat.RosFlag==-1
+    //Cartesian Space
+    x_cDesiredStat.CartesianPos=x_cRcvPlanData.CartesianPos
+    x_cDesiredStat.CartesianVel=0
+    x_cDesiredStat.CartesianAccel=0
+    x_cDesiredStat.CartesianForce=0
+    //Joint Space
+    x_jDesiredStat.JointPos=x_jRevPlanData.JointPos
+    x_jDesiredStat.JointVel=0
+    x_jDesiredStat.JointAccel=0
+    x_jDesiredStat.JointForce=0 
+  endIf
+  
+end]]></Code>
+  </Program>
+</Programs>

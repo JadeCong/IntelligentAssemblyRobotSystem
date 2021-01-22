@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="initTcpIpSocket" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_sMotionSocket" type="string" xsi:type="element" use="reference" />
+      <Parameter name="x_sFbkSocket" type="string" xsi:type="element" use="reference" />
+      <Parameter name="x_fRosStatus" type="FlagStatus" xsi:type="element" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nMotionNum" type="num" xsi:type="array" size="1" />
+      <Local name="l_nFbkNum" type="num" xsi:type="array" size="1" />
+      <Local name="l_nMotionReturn" type="num" xsi:type="array" size="4" />
+      <Local name="l_nFbkReturn" type="num" xsi:type="array" size="4" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //This program is used for initializing the TCP/IP communication socket between the robot controller
+  //and the host ROS contorller.
+  
+  //Define the TCP/IP socket communication parameters between the robot controller and the host Ros controller
+  cRosMotionParm.port=6001
+  cRosMotionParm.timeOut=0
+  cRosMotionParm.mode="rs422"
+  cRosMotionParm.nagle=false
+  
+  cRosFbkParm.port=7001
+  cRosFbkParm.timeOut=0
+  cRosFbkParm.mode="rs422"
+  cRosFbkParm.nagle=false
+  
+  //Configure the TCP/IP socket communication parameters
+  l_nMotionNum=getData(x_sMotionSocket,siTcpIpMotion)
+  l_nFbkNum=getData(x_sFbkSocket,soTcpIpFbk)
+  if (l_nMotionNum>0) and (l_nFbkNum>0)
+    l_nMotionReturn[0]=sioCtrl(siTcpIpMotion,"port",cRosMotionParm.port)
+    l_nMotionReturn[1]=sioCtrl(siTcpIpMotion,"timeout",cRosMotionParm.timeOut)
+    l_nMotionReturn[2]=sioCtrl(siTcpIpMotion,"mode",cRosMotionParm.mode)
+    l_nMotionReturn[3]=sioCtrl(siTcpIpMotion,"nagle",cRosMotionParm.nagle)
+    
+    l_nFbkReturn[0]=sioCtrl(soTcpIpFbk,"port",cRosFbkParm.port)
+    l_nFbkReturn[1]=sioCtrl(soTcpIpFbk,"timeout",cRosFbkParm.timeOut)
+    l_nFbkReturn[2]=sioCtrl(soTcpIpFbk,"mode",cRosFbkParm.mode)
+    l_nFbkReturn[3]=sioCtrl(soTcpIpFbk,"nagle",cRosFbkParm.nagle)
+  endIf
+  
+  //Check the socket communication configuration successful or not
+  //if (l_nSensorReturn[0]==0) and (l_nSensorReturn[1]==0) and (l_nSensorReturn[2]==0) and (l_nSensorReturn[3]==0)
+  if (l_nMotionReturn==0) and (l_nFbkReturn==0)
+    x_fRosStatus.RosFlag=1
+  else
+    x_fRosStatus.RosFlag=-1
+  endIf
+  
+  //Clear the socket buffer for new communication
+  clearBuffer(siTcpIpMotion)
+  clearBuffer(soTcpIpFbk)
+  
+end]]></Code>
+  </Program>
+</Programs>

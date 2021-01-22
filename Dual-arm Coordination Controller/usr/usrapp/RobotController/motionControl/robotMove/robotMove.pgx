@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="robotMove" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_fFlagStatus" type="FlagStatus" xsi:type="element" use="reference" />
+      <Parameter name="x_jMoveCommand" type="JointSpace" xsi:type="element" use="reference" />
+    </Parameters>
+    <Code><![CDATA[begin
+  
+  //This program is used for realtime robot control, and it should be called every 4ms(standard robot loop time).
+  //It will move the robot to the given goal position based on the current judging condition(robot condition and
+  //contact force) in every 4ms. And the program will keep the current judging condition interface reserved for
+  //future function expansion.
+  
+  //Judge the current host ROS command, robot status and contact force and then decide whether the loop will begin.
+  while (x_fFlagStatus.RosFlag==1 and x_fFlagStatus.RobotFlag==1 and x_fFlagStatus.ForceFlag==1)
+    
+    //Send the joint command for the next 4ms, and returns true if command accepted, false if refuesed.(movejSync
+    //instruction not started or already completed.)
+    if(!$movejSync(x_jMoveCommand.JointPos))
+      popUpMsg("The joint motion command refused and robot will stop.")
+      return
+    endIf
+    
+    //Force the sequencing to the next task by using the "delay(0.0)" instruction explicitly.
+    delay(0.0)
+    
+  endWhile
+  
+  //End the Sychronous Movej procedural motion mode and stop the robot.
+  $movejSyncEnd()
+  stopMove()
+  
+end]]></Code>
+  </Program>
+</Programs>

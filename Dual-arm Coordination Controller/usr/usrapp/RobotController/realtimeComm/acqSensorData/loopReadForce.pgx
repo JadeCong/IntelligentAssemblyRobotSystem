@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="loopReadForce" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nSensorForce" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_fSensorStatus" type="FlagStatus" xsi:type="element" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nDetectValue" type="num" xsi:type="array" size="6" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //This program is used for circularly acquiring the interaction force/torque values between the robot endeffector and environment.
+  
+  //do
+  //Acquire the detected values from the sensor
+  call readDetectValue(l_nDetectValue,x_fSensorStatus)
+  //Calculate the sensor force/torque values
+  call calculateForce(l_nDetectValue,x_nSensorForce)
+  //until false
+  
+end]]></Code>
+  </Program>
+</Programs>

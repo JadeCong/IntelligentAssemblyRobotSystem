@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="newCommand" access="public">
+    <Locals>
+      <Local name="l_nNum" type="num" xsi:type="array" size="1" />
+      <Local name="l_nNowClock" type="num" xsi:type="array" size="1" />
+      <Local name="l_nLastClock" type="num" xsi:type="array" size="1" />
+      <Local name="l_nTime" type="num" xsi:type="array" size="1" />
+      <Local name="l_pCommand" type="pointRx" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //循环生成并执行新的机器人位置指令且记录当前机器人的状态（可在此时运行同步任务获取机器人状态）
+  do
+    //计算机器人新的位置指令----------
+    call errorCalc(pCommand)
+    
+    
+    //执行新的位置指令-----------
+    alterMovej(pCommand,flange,mImpedSpeed)
+    //waitEndMove()
+    
+    
+    //获取时钟状态并计算movej指令执行时间----------
+    l_nLastClock=nNowClock
+    nNowClock=clock()
+    l_nNowClock=nNowClock
+    l_nTime=l_nNowClock-l_nLastClock
+    nTime=l_nTime
+    
+    
+    //获取机器人当前的状态（位置，速度，加速度）----------
+    //获取机器人的当前位置，并赋值给数组变量，便于程序操作（作为下一条指令计算中的当前位置）
+    pNowPosition=$getPosFbk(flange,world)
+    
+    //获取机器人的前一次及当前笛卡尔速度（有待考证和计算）
+    //nLastVelocity=nNowVelocity
+    for l_nNum= 0 to 5
+      nLastVelocity[l_nNum]=nNowVelocity[l_nNum]
+    endFor
+    $getSpeedFbk(flange,world,nNowVelocity[0],nNowVelocity[1],nNowVelocity[2],nNowVelocity[3],nNowVelocity[4],nNowVelocity[5])
+    
+    //计算机器人的当前加速度（位置+姿态）（利用当前和上一个速度差分计算）
+//    for l_nNum= 0 to 5
+//      nNowAccel[l_nNum]=(nNowVelocity[l_nNum]-nLastVelocity[l_nNum])/l_nTime
+//    endFor
+    
+    delay(0.0)
+  
+  until false
+  
+end  ]]></Code>
+  </Program>
+</Programs>

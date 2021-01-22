@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="moveTest" access="public">
+    <Locals>
+      <Local name="l_jJointRx_Me" type="jointRx" xsi:type="array" size="1" />
+      <Local name="l_jJointRx_Bro" type="jointRx" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  l_jJointRx_Me={0,0,0,0,0,0}
+  
+  //测试机器人通讯
+  while true
+    
+    movej(l_jJointRx_Me,flange,mNomSpeed)
+    waitEndMove()
+    delay(0.5)
+    call Communication(l_jJointRx_Me,l_jJointRx_Bro)
+    
+    l_jJointRx_Me.j1=l_jJointRx_Me.j1+1
+    l_jJointRx_Me.j2=l_jJointRx_Me.j2+1
+    l_jJointRx_Me.j3=l_jJointRx_Me.j3+1
+    l_jJointRx_Me.j4=l_jJointRx_Me.j4+1
+    l_jJointRx_Me.j5=l_jJointRx_Me.j5+1
+    l_jJointRx_Me.j6=l_jJointRx_Me.j6+1
+    
+  endWhile
+end]]></Code>
+  </Program>
+</Programs>

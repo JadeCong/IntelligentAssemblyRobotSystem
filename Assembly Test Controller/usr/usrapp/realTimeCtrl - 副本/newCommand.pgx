@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="newCommand" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_pPointCommand" type="pointRx" xsi:type="array" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nNowPointPos" type="num" xsi:type="array" size="6" />
+      <Local name="l_nNum" type="num" xsi:type="array" size="1" />
+      <Local name="l_nPointAccel" type="num" xsi:type="array" size="6" />
+      <Local name="l_nPointPos" type="num" xsi:type="array" size="6" />
+      <Local name="l_nPointVel" type="num" xsi:type="array" size="6" />
+      <Local name="l_ndPointPos" type="num" xsi:type="array" size="6" />
+      <Local name="l_nPostureTemp" type="num" xsi:type="array" size="3" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //===================== 每4ms更新机器人的位置指令（根据上一次采集的数据对下一次的运动产生修正） ====================
+  
+  while true
+    
+    //将机器人当前与理想的笛卡尔位置赋值给数组变量，便于程序操作（可采用参数传递操作数据）
+    l_nNowPointPos[0]=pNowPointPos.trsf.x/1000
+    l_nNowPointPos[1]=pNowPointPos.trsf.y/1000
+    l_nNowPointPos[2]=pNowPointPos.trsf.z/1000
+    l_nNowPointPos[3]=pNowPointPos.trsf.rx
+    l_nNowPointPos[4]=pNowPointPos.trsf.ry
+    l_nNowPointPos[5]=pNowPointPos.trsf.rz
+    
+    l_ndPointPos[0]=pdPointPos.trsf.x/1000
+    l_ndPointPos[1]=pdPointPos.trsf.y/1000
+    l_ndPointPos[2]=pdPointPos.trsf.z/1000
+    l_ndPointPos[3]=pdPointPos.trsf.rx
+    l_ndPointPos[4]=pdPointPos.trsf.ry
+    l_ndPointPos[5]=pdPointPos.trsf.rz
+    
+    
+    //---------- 基于阻抗/other模型，求出机器人下一条位置指令的误差修正量（注意单位换算） ----------
+    //求加速度（位置+姿态）
+    for l_nNum=0 to 2
+      l_nPointAccel[l_nNum]=ndPointAccel[l_nNum]+1/nMass[l_nNum,l_nNum]*((ndForceTorque[l_nNum]-nForceTorque[l_nNum])-nDamp[l_nNum,l_nNum]*(nNowPointVel[l_nNum]-ndPointVel[l_nNum])/1000-nStiffness[l_nNum,l_nNum]*(l_nNowPointPos[l_nNum]-l_ndPointPos[l_nNum]))
+      l_nPostureTemp[l_nNum]=1/nMass[l_nNum+3,l_nNum+3]*((ndForceTorque[l_nNum+3]-nForceTorque[l_nNum+3])-nDamp[l_nNum+3,l_nNum+3]*(nNowPointVel[l_nNum+3]-ndPointVel[l_nNum+3])-nStiffness[l_nNum+3,l_nNum+3]*(l_nNowPointPos[l_nNum+3]-l_ndPointPos[l_nNum+3]))
+      l_nPointAccel[l_nNum+3]=ndPointAccel[l_nNum+3]+l_nPostureTemp[l_nNum]
+    endFor
+    
+    //求速度（位置+姿态）
+    for l_nNum=0 to 2
+      l_nPointVel[l_nNum]=nNowPointVel[l_nNum]/1000+l_nPointAccel[l_nNum]*0.004
+      l_nPointVel[l_nNum+3]=nNowPointVel[l_nNum+3]+l_nPointAccel[l_nNum+3]*0.004
+    endFor
+    
+    //求位置指令（位置+姿态）（转换成笛卡儿坐标点类型（单位）并输出）
+    for l_nNum=0 to 2
+      l_nPointPos[l_nNum]=l_nNowPointPos[l_nNum]*1000+l_nPointVel[l_nNum]*0.004*1000
+      l_nPointPos[l_nNum+3]=l_nNowPointPos[l_nNum+3]+l_nPointVel[l_nNum+3]*0.004
+    endFor
+    
+    x_pPointCommand.trsf.x=l_nPointPos[0]
+    x_pPointCommand.trsf.y=l_nPointPos[1]
+    x_pPointCommand.trsf.z=l_nPointPos[2]
+    x_pPointCommand.trsf.rx=l_nPointPos[3]
+    x_pPointCommand.trsf.ry=l_nPointPos[4]
+    x_pPointCommand.trsf.rz=l_nPointPos[5]
+    
+    //目前只修正机器人的位置部分,姿态部分暂时保持不变
+//    x_pPointCommand.trsf.rx=pNowPointPos.trsf.rx
+//    x_pPointCommand.trsf.ry=pNowPointPos.trsf.ry
+//    x_pPointCommand.trsf.rz=pNowPointPos.trsf.rz
+    
+    
+    //强制结束当前任务，进入下一次sequence循环
+    delay(0.0)
+    
+  endWhile
+  
+end]]></Code>
+  </Program>
+</Programs>

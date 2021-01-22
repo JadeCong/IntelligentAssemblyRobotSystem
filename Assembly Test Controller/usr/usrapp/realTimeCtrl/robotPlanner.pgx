@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="robotPlanner" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nFileID" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_ndForceTorque" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_pdPointPos" type="pointRx" xsi:type="array" use="reference" />
+      <Parameter name="x_ndPointVel" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_ndPointAccel" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_jdJointPos" type="jointRx" xsi:type="array" use="reference" />
+      <Parameter name="x_ndJointVel" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_ndJointAccel" type="num" xsi:type="array" use="reference" />
+    </Parameters>
+    <Code><![CDATA[begin
+  
+  //====================  从文件输入机器人运动规划所期望的数据（Force/Motion State） ====================
+  
+  //---------- 从外部文件输入更新机器人运动规划的期望力和位置（待后期补充） ----------
+  //期望的机器人与环境交互作用力Force
+  //$fileGet(x_nFileID[3],x_ndForceTorque[0],6)
+  
+  //期望的机器人的运动状态Motion State
+  //笛卡尔空间内（Cartesian Space）
+  //$fileGet(x_nFileID[4],x_pdPointPos[0],6)
+  //$fileGet(x_nFileID[4],x_ndPointVel[0],6)
+  //$fileGet(x_nFileID[4],x_ndPointAccel[0],6)
+  
+  //关节空间内（Joint Space）
+  //$fileGet(x_nFileID[5],x_jdJointPos[0],6)
+  //$fileGet(x_nFileID[5],x_ndJointVel[0],6)
+  //$fileGet(x_nFileID[5],x_ndJointAccel[0],6)
+  
+  
+  //---------- 当前假定期望力为零，期望位置保持不变（注意单位换算，当前使用MKS） ----------
+  //期望的机器人与环境交互作用力Force（N）
+  x_ndForceTorque[0]=0
+  x_ndForceTorque[1]=0
+  x_ndForceTorque[2]=0
+  x_ndForceTorque[3]=0
+  x_ndForceTorque[4]=0
+  x_ndForceTorque[5]=0
+  
+  
+  //期望的机器人的运动状态Motion State（m,m/s,m/s^2;°,°/s,°/s^2）
+  //笛卡尔空间内（Cartesian Space）
+  //加速度
+  x_ndPointAccel=0
+  
+  //速度
+  x_ndPointVel=0
+  
+  //位置和姿态
+  x_pdPointPos=pNowPointPos
+  
+  //关节空间内（Joint Space）
+  //加速度
+  //x_ndJointAccel=0
+  
+  //速度
+  //x_ndJointVel=0
+  
+  //位置
+  //x_jdJointPos=jNowJointPos
+  
+end]]></Code>
+  </Program>
+</Programs>

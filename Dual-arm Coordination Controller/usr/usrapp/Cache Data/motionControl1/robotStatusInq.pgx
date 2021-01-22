@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="robotStatusInq" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nCyclePeriod" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_tExecuteTool" type="tool" xsi:type="array" use="reference" />
+      <Parameter name="x_fRefFrame" type="frame" xsi:type="array" use="reference" />
+      <Parameter name="x_jJointPos" type="jointRx" xsi:type="array" use="reference" />
+      <Parameter name="x_nJointVel" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nJointAccel" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_pPointPos" type="pointRx" xsi:type="array" use="reference" />
+      <Parameter name="x_nPointVel" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nPointAccel" type="num" xsi:type="array" use="reference" />
+      <Parameter name="x_nResultantVel" type="num" xsi:type="array" use="reference" />
+      <Parameter name="RobotMotion" type="RobotMotionMsg" xsi:type="array" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_nNum" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //This program is used for acquiring the current robot status which include joint space information(joint position,
+  //joint velocity, joint acceleration) and cartesian space information(cartesian position, cartesian velocity, cartesian
+  //acceleration). The current robot status are used for motion control and feedback information for host ROS controller.
+  //According to last robot status based on specified frame and inqury period, the current joint positions, joint velocities, 
+  //cartesian positions and cartesian velocities of robot will be acquired and the current joint acceleration and cartesian
+  //acceleration of robot will be calculated using differential method. The unit of the variables should be noticed extremely
+  //in cartesian space and joint space.
+  
+  //Acquire the current status of robot from the encoders in joint space.(Unit: degree, degree/second, degree/(second squared))
+  RobotMotion.jJointPos=$getJntFbk()
+  $getJntSpeedFbk(x_nJointVel)
+  //Calculate the joint acceleration of robot based on last robot status and inqury period.
+  for l_nNum=0 to 5
+    x_nJointAccel[l_nNum]=(x_nJointVel[l_nNum]-nNowJointVel[l_nNum])/x_nCyclePeriod
+  endFor
+  
+  //Acquire the current status of robot from the encoders in cartesian space.(Unit: millimeter;degree, mm;°/s, mm;°/s^2)
+  x_pPointPos=$getPosFbk(x_tExecuteTool,x_fRefFrame)
+  x_nResultantVel=$getSpeedFbk(x_tExecuteTool,x_fRefFrame,x_nPointVel[0],x_nPointVel[1],x_nPointVel[2],x_nPointVel[3],x_nPointVel[4],x_nPointVel[5])
+  for l_nNum=0 to 5
+    x_nPointAccel[l_nNum]=(x_nPointVel[l_nNum]-nNowPointVel[l_nNum])/x_nCyclePeriod
+  endFor
+  
+  
+end]]></Code>
+  </Program>
+</Programs>

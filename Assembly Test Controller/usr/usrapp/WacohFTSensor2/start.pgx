@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="start" access="public">
+    <Locals>
+      <Local name="l_sConnect" type="string" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+
+  //初始化Wacoh Force/Torque Sensor
+  call initSensor("io:Wacoh",l_sConnect)
+  if l_sConnect=="yes"
+    putln("Connection success!")
+    delay(1.0)
+  else
+    putln("Connection fail!")
+    delay(1.0)
+  endIf
+
+  //创建同步任务，循环获取传感器的Force/Torque数据（采集频率0.004s，频率为250Hz，可设置调节，超时是否需打开？）
+  taskCreateSync "getForces",0.004,bOverRun,loopReadForce()
+
+  //创建异步任务，将采集的传感器数据发送至用户界面实时显示
+  taskCreate "user",20,userInterface()
+
+end]]></Code>
+  </Program>
+</Programs>

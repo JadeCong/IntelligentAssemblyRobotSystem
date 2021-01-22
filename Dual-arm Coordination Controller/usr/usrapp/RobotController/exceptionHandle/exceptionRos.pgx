@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="exceptionRos" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_fRosStatus" type="FlagStatus" xsi:type="element" use="reference" />
+      <Parameter name="x_nRosFlagCmd" type="num" xsi:type="element" use="reference" />
+    </Parameters>
+    <Code><![CDATA[begin
+  
+  //This program is used for checking the ROS command of exception handling from the host ROS controller
+  //and deciding whether the robot should keep executing the motion command or not.
+  
+  //The ROS command flag from the host ROS controller should be acquired through TCP/IP socket communication.
+  //And the ROS flag in the ROS massage command is in the last element in the received array.
+  x_fRosStatus.RosFlag=x_nRosFlagCmd
+  
+end]]></Code>
+  </Program>
+</Programs>

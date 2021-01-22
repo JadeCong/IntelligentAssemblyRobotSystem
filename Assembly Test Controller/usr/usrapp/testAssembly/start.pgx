@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="start">
+    <Code><![CDATA[begin
+  
+  //清理用户屏幕显示以重新开始程序
+  cls()
+  
+  //初始化机器人零位置点
+  putln("Initialize the robot zero position.")
+  movej(jJointRx_Init,tTool_flange,mMdesc_Move)
+  waitEndMove()
+  
+  //将机器人移动至总装配任务的开始点
+  putln("Moving the robot to the whole assembly task start point.")
+  movej(jJointRx_Asse_S,tTool_1,mMdesc_Move)
+  waitEndMove()
+  
+  //按顺序分别执行装配子任务1，2，3
+  putln("Execute the assembly subtask 1, 2 and 3 respectively in order.")
+  
+  //可循环执行装配任务，直到人工手动停止
+  //do
+    
+    //执行装配子任务1：安装CPU
+    call Assembly_Task1()
+  
+    //执行装配子任务2：扣紧CPU
+    call Assembly_Task2()
+  
+    //执行装配子任务3：安装内存条
+    call Assembly_Task3()
+  
+  //until false
+    
+end]]></Code>
+  </Program>
+</Programs>

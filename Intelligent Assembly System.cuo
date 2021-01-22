@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CellUserOptions>
+  <Controller Name="Assembly Test Controller">
+    <Application>Disk://WacohFTSensor2/WacohFTSensor2.pjx</Application>
+    <Application>Disk://realTimeCtrl/realTimeCtrl.pjx</Application>
+    <Application>Disk://ros_server/ros_server.pjx</Application>
+  </Controller>
+  <Controller Name="Dual-arm Coordination Controller">
+    <Application>Disk://RobotController/RobotController.pjx</Application>
+    <Application>Disk://RobotController/realtimeComm/connectHostRos/connectHostRos.pjx</Application>
+    <Application>Disk://RobotController/realtimeComm/acqSensorData/acqSensorData.pjx</Application>
+    <Application>Disk://RobotController/motionControl/robotMove/robotMove.pjx</Application>
+    <Application>Disk://RobotController/motionControl/robotStatusInq/robotStatusInq.pjx</Application>
+    <Application>Disk://RobotController/dataProcess/dataProcess.pjx</Application>
+  </Controller>
+  <Option Name="DataTreeView">
+    <Nodes>
+      <Node Path="Intelligent Assembly System" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\realTimeCtrl" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\realTimeCtrl\sio\sClient" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\realTimeCtrl\tool\tTool" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\JointFbkMsg\rosJointFbkMsg" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\JointFbkMsg\rosJointFbkMsg\rosJointFbkMsg[0]" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\JointFbkMsg\rosJointFbkMsg\rosJointFbkMsg[0]\rosJointFbkMsg[0].header" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\JointFbkMsg\rosJointFbkMsg\rosJointFbkMsg[0]\rosJointFbkMsg[0].header\rosJointFbkMsg[0].header[0]" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\JointStateMsg\rosJointMsg" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\JointStateMsg\rosJointMsg\rosJointMsg[0]" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\JointStateMsg\rosJointMsg\rosJointMsg[0]\rosJointMsg[0].jointState\rosJointMsg[0].jointState[0]" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\JointStateMsg\rosJointMsg\rosJointMsg[0]\rosJointMsg[0].jointState\rosJointMsg[0].jointState[0]\rosJointMsg[0].jointState[0].nSeq" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\JointTrajPtMsg\rosTrajPtAck" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\num\nInConnFlag" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\Queue\qMoveBuffer" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\Queue\qMoveBuffer\qMoveBuffer[0]" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\RobotStatusMsg\rosStatusMsg" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\RosSimpleMsg" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\RosSimpleMsg\rosGenericMsg" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\RosSimpleMsg\rosGenericMsg\rosGenericMsg[0]" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\sio" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Dual-arm Coordination Controller" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Dual-arm Coordination Controller\connectHostRos" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Dual-arm Coordination Controller\connectHostRos\CommParameter" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Dual-arm Coordination Controller\connectHostRos\FlagStatus" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Dual-arm Coordination Controller\connectHostRos\num" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Dual-arm Coordination Controller\connectHostRos\sio" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Dual-arm Coordination Controller\RobotController" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Dual-arm Coordination Controller\RobotController\FlagStatus" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Dual-arm Coordination Controller\RobotController\FlagStatus\fFlagStatus" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Dual-arm Coordination Controller\RobotController\FlagStatus\fFlagStatus\fFlagStatus[0]" IsExpanded="true" />
+    </Nodes>
+  </Option>
+  <Option Name="CellExplorer">
+    <Nodes>
+      <Node Path="Intelligent Assembly System" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\realTimeCtrl\dataFileOutput\Parameters" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\realTimeCtrl\dataFileOutput\Locals" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\realTimeCtrl\newCommand\Locals" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\realTimeCtrl\robotMove\Parameters" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\realTimeCtrl\robotMove\Locals" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\realTimeCtrl\robotPlanner\Parameters" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\realTimeCtrl\robotStateInq\Parameters" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\realTimeCtrl\robotStateInq\Locals" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\References\JointFbkMsg\body" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\References\JointFbkMsg\header" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\References\JointStateMsg\header" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\References\JointTrajPtFMsg\jointTrajPtFull" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\References\JointTrajPtMsg\jointTrajPt" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\References\JointTrajPtMsg\prefix" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\References\RobotStatusMsg\body" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\encodeJState\Parameters" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\encPrefixHeader\Parameters" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\initParams\Locals" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\pushMotion\Parameters" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\pushMotion\Locals" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\recvData\Parameters" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\recvData\Locals" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\recvMsgBody\Parameters" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\recvMsgHeader\Parameters" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\recvTrajPt\Parameters" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\recvTrajPtFull\Parameters" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\sendAck\Parameters" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\sendData\Parameters" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\sendRosMsg\Parameters" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\start" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\toJointArrayRad\Parameters" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Assembly Test Controller\ros_server\toJointRxDeg\Parameters" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Dual-arm Coordination Controller" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Dual-arm Coordination Controller\acqSensorData\References" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Dual-arm Coordination Controller\connectHostRos\initTcpIpSocket" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Dual-arm Coordination Controller\connectHostRos\initTcpIpSocket\Parameters" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Dual-arm Coordination Controller\connectHostRos\start" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Dual-arm Coordination Controller\RobotController" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Dual-arm Coordination Controller\RobotController\start" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Staubli TX90 Controller-Left" IsExpanded="true" />
+    </Nodes>
+  </Option>
+  <Option Name="GeometryView">
+    <Nodes>
+      <Node Path="Intelligent Assembly System" IsExpanded="true" />
+      <Node Path="Intelligent Assembly System\Dual-arm Coordination Controller" IsExpanded="true" />
+    </Nodes>
+  </Option>
+  <Option Name="Breakpoints">
+    <Breakpoints />
+  </Option>
+  <Option Name="IOsControlPanel">
+    <Ios />
+  </Option>
+  <Option Name="Watches">
+    <Watches />
+  </Option>
+  <Option Name="3DView">
+    <_3DView Visible="false" />
+  </Option>
+  <Option Name="SynchronizerMode">
+    <Synchronizers>
+      <Synchronizer Controller="Assembly Test Controller" Mode="Emulator" />
+      <Synchronizer Controller="Dual-arm Coordination Controller" Mode="Emulator" />
+    </Synchronizers>
+  </Option>
+  <Option Name="Safety">
+    <Safeties />
+  </Option>
+</CellUserOptions>

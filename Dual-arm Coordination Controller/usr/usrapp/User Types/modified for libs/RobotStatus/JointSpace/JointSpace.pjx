@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://www.staubli.com/robotics/VAL3/Project/3">
+  <Parameters version="s7.9.1" stackSize="5000" millimeterUnit="true" />
+  <Programs />
+  <Database>
+    <Data file="JointSpace.dtx" />
+  </Database>
+  <Libraries />
+  <Types>
+    <Type name="JointPos" path="./JointPos/JointPos.pjx" />
+    <Type name="JointVel" path="./JointVel/JointVel.pjx" />
+    <Type name="JointAccel" path="./JointAccel/JointAccel.pjx" />
+    <Type name="JointForce" path="./JointForce/JointForce.pjx" />
+  </Types>
+</Project>

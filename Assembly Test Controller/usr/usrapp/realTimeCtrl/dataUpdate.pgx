@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="dataUpdate" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_nFileID" type="num" xsi:type="array" use="reference" />
+    </Parameters>
+    <Code><![CDATA[begin
+  
+  //==================== 实时（每4ms）采集、更新并输出数据（传感器及机器人状态）;输入并更新（阻抗模型参数，机器人运动规划所期望的Force/Position），用于下一条运动指令生成 ===================
+  
+  while true
+    
+    //---------- 采集并更新传感器数据（当前机器人与环境交互状态下） ----------
+    call loopReadForce(nForceTorque)
+    
+    
+    //---------- 采集并更新机器人状态（机器人运动至目标点时or过程中） ----------
+    call robotStateInq(pNowPointPos,nNowPointVel,nNowPointAccel,jNowJointPos,nNowJointVel,nNowJointAccel,nNowCarteVel)
+    
+    
+    //---------- 输出需要的数据（机器人、传感器的状态数据）到文件 ----------
+    //  call dataFileOutput(x_nFileID,nForceTorque,pNowPointPos,nNowPointVel,nNowPointAccel,jNowJointPos,nNowJointVel,nNowJointAccel)
+    
+    
+    
+    //---------- 更新机器人当前的阻抗模型参数（当前使用假定辨识参数，理想为实时在线辨识参数，待后期补充） ----------
+    call modelParmIdent(nMass,nDamp,nStiffness)
+    
+    
+    //---------- 从文件输入机器人运动规划所期望的数据（Force/Motion State）（当前使用数据为假定期望力为零，期望运动状态保持不动，力和运动规划待后期补充） ----------
+    call robotPlanner(x_nFileID,ndForceTorque,pdPointPos,ndPointVel,ndPointAccel,jdJointPos,ndJointVel,ndJointAccel)
+    
+    
+    //强制结束当前任务，进入下一次sequence循环
+    delay(0.0)
+    
+  endWhile
+  
+end]]></Code>
+  </Program>
+</Programs>

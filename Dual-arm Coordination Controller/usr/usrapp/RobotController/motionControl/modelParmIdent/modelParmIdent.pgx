@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Programs xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.staubli.com/robotics/VAL3/Program/2">
+  <Program name="modelParmIdent" access="public">
+    <Parameters xmlns="http://www.staubli.com/robotics/VAL3/Param/1">
+      <Parameter name="x_mImpedParm" type="ModelParameter" xsi:type="element" use="reference" />
+    </Parameters>
+    <Locals>
+      <Local name="l_n" type="num" xsi:type="array" size="1" />
+    </Locals>
+    <Code><![CDATA[begin
+  
+  //This program is used for identifying the robot impedance model parameters or other model parameters on line
+  //in realtime. And the identified model parameters are used for robot realtime control based on the relevant
+  //models. For now, the impedance model parameters are identified in this program.
+  
+  //Impedance model parameter identification
+  //Suppose the static parameter for impedance model in six dimensions.
+  //Mass Parameter(Unit: N*s^2/m, N*s^2/°)
+  for l_n=0 to 2
+    x_mImpedParm.MassParm[l_n]=0.1
+    x_mImpedParm.MassParm[l_n+3]=0.00005
+  endFor 
+  //Damping Parameter(Unit: N*s/m, N*s/°)
+  for l_n=0 to 2
+    x_mImpedParm.DampingParm[l_n]=4
+    x_mImpedParm.DampingParm[l_n+3]=4
+  endFor
+  //Stiffness Parameter(Unit: N/m, N/°)
+  for l_n=0 to 2
+    x_mImpedParm.StiffnessParm[l_n]=4
+    x_mImpedParm.StiffnessParm[l_n+3]=4
+  endFor
+  
+  //Other model parameter identification
+  
+end]]></Code>
+  </Program>
+</Programs>
